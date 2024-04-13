@@ -1,0 +1,59 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The halonctl settings",
+    "additionalProperties": false,
+    "required": ["version"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["5.5"],
+            "description": "The software version the configuration was created for"
+        },
+        "environment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "controlsockets": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "smtpd": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/smtpd.ctl",
+                                    "description": "Control socket path to smtpd process"
+                                }
+                            }
+                        },
+                        "rated": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/rated.ctl",
+                                    "description": "Control socket path to rate process"
+                                }
+                            }
+                        },
+                        "dlpd": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/dlpd.ctl",
+                                    "description": "Control socket path to content inspection process"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

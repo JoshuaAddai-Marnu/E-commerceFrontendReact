@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "dependencies": {
+    "@microsoft/msbuild-dependencies.win32-ia32": "17.10.64-pre",
+    "@microsoft/visualstudio-projectsystem-buildhost-rpc.win32-ia32": "17.10.64-pre",
+    "@microsoft/visualstudio-projectsystem-buildhost.win32-ia32": "17.10.64-pre",
+    "@microsoft/visualstudio-projectsystem-server.win32-ia32": "17.10.64-pre"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://devdiv.visualstudio.com/DevDiv/_git/CPS",
+    "branch": "main"
+  }
+}

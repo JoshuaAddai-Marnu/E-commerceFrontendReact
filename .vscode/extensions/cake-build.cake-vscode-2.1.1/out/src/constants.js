@@ -1,0 +1,28 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CAKE_DEFAULT_TERMINAL = exports.CAKE_OUTPUT_CHANNEL = exports.CAKE_PACKAGES_CONFIG_NAME = exports.CAKE_CONFIG_NAME = exports.CAKE_DEFAULT_MODULES_PATH = exports.CAKE_DEFAULT_ADDINS_PATH = exports.CAKE_DEFAULT_TOOLS_PATH = exports.CAKE_SEARCH_PAGE_SIZE = exports.CAKE_MODULE_DIRECTIVE = exports.CAKE_TOOL_DIRECTIVE = exports.CAKE_ADDIN_DIRECTIVE = exports.CAKE_FILE_EXTENSION = exports.CAKE_FILE_EXTENSION_MATCHER = exports.CAKE_BAKERY_PACKAGE_URL = exports.CAKE_DEFAULT_NAME = exports.DEFAULT_RESPONSE_TIMEOUT = exports.NUGET_SERVICE_INDEX_URL = exports.ERROR_NO_WORKSPACE = exports.ERROR_INVALID_SETTINGS = exports.OUTPUT_CHANNEL_NAME = exports.DEFAULT_SCRIPT_NAME = exports.ADD = exports.REMOVE = exports.CANCEL = void 0;
+exports.CANCEL = '__CANCEL__';
+exports.REMOVE = 'REMOVE';
+exports.ADD = 'ADD';
+exports.DEFAULT_SCRIPT_NAME = 'build.cake';
+exports.OUTPUT_CHANNEL_NAME = 'Cake Workspace';
+exports.ERROR_INVALID_SETTINGS = 'Invalid installation options! Please try again.';
+exports.ERROR_NO_WORKSPACE = 'You have not yet opened a folder.';
+exports.NUGET_SERVICE_INDEX_URL = 'https://api.nuget.org/v3/index.json';
+exports.DEFAULT_RESPONSE_TIMEOUT = 10000;
+exports.CAKE_DEFAULT_NAME = "Cake";
+exports.CAKE_BAKERY_PACKAGE_URL = 'http://nuget.org/api/v2/package/Cake.Bakery/';
+exports.CAKE_FILE_EXTENSION_MATCHER = /\.(cake)$/;
+exports.CAKE_FILE_EXTENSION = '.cake';
+exports.CAKE_ADDIN_DIRECTIVE = '#addin';
+exports.CAKE_TOOL_DIRECTIVE = '#tool';
+exports.CAKE_MODULE_DIRECTIVE = '#module';
+exports.CAKE_SEARCH_PAGE_SIZE = '100';
+exports.CAKE_DEFAULT_TOOLS_PATH = 'tools';
+exports.CAKE_DEFAULT_ADDINS_PATH = 'tools/Addins';
+exports.CAKE_DEFAULT_MODULES_PATH = 'tools/Modules';
+exports.CAKE_CONFIG_NAME = 'cake.config';
+exports.CAKE_PACKAGES_CONFIG_NAME = 'packages.config';
+exports.CAKE_OUTPUT_CHANNEL = 'Cake';
+exports.CAKE_DEFAULT_TERMINAL = 'Cake';
+//# sourceMappingURL=constants.js.map

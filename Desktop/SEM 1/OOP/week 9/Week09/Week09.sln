@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School", "School\School.csproj", "{24EE548A-5256-4785-83D0-FE06B89BE65E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressProject", "AddressProject\AddressProject.csproj", "{9A3FAD38-2A17-4502-A8A6-7A6592E94CA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Person", "Person\Person.csproj", "{25BA7899-5042-4205-B546-0121A6834B10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24EE548A-5256-4785-83D0-FE06B89BE65E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24EE548A-5256-4785-83D0-FE06B89BE65E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24EE548A-5256-4785-83D0-FE06B89BE65E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24EE548A-5256-4785-83D0-FE06B89BE65E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A3FAD38-2A17-4502-A8A6-7A6592E94CA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A3FAD38-2A17-4502-A8A6-7A6592E94CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A3FAD38-2A17-4502-A8A6-7A6592E94CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A3FAD38-2A17-4502-A8A6-7A6592E94CA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25BA7899-5042-4205-B546-0121A6834B10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25BA7899-5042-4205-B546-0121A6834B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25BA7899-5042-4205-B546-0121A6834B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25BA7899-5042-4205-B546-0121A6834B10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {488C443B-2CD1-4C89-B05C-8508C5C6DC8E}
+	EndGlobalSection
+EndGlobal

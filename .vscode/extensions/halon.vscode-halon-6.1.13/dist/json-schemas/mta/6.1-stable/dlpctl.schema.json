@@ -1,0 +1,65 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The dlpctl settings",
+    "additionalProperties": false,
+    "required": ["version"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["6.1"],
+            "description": "The software version the configuration was created for"
+        },
+        "environment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "controlsocket": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/dlpd.ctl",
+                                    "description": "Control socket path to dlpd process"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "port"
+                            ],
+                            "properties": {
+                                "port": {
+                                    "type": "integer",
+                                    "maximum": 65535,
+                                    "minimum": 1,
+                                    "description": "Port number"
+                                },
+                                "address": {
+                                    "description": "IP address",
+                                    "anyOf": [
+                                        {
+                                            "type": "string",
+                                            "format": "ipv4",
+                                            "description": "IPv4 address"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "format": "ipv6",
+                                            "description": "IPv6 address"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

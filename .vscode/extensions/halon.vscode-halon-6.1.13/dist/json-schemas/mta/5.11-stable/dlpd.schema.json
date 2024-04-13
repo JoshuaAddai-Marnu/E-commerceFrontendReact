@@ -1,0 +1,171 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The settings for the embedded DLP (dlpd) engine",
+    "markdownDescription": "The settings for the embedded DLP (`dlpd`) engine",
+    "additionalProperties": false,
+    "required": ["version"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["5.11"],
+            "description": "The software version the configuration was created for"
+        },
+        "environment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "socket": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/dlpd.sock",
+                                    "description": "socket path"
+                                },
+                                "owner": {
+                                    "type": "string",
+                                    "description": "socket owner"
+                                },
+                                "group": {
+                                    "type": "string",
+                                    "description": "socket group"
+                                },
+                                "chmod": {
+                                    "$ref": "#/definitions/mode",
+                                    "description": "socket chmod"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "port"
+                            ],
+                            "properties": {
+                                "port": {
+                                    "type": "integer",
+                                    "maximum": 65535,
+                                    "minimum": 1,
+                                    "description": "Port number"
+                                },
+                                "address": {
+                                    "description": "IP address",
+                                    "anyOf": [
+                                        {
+                                            "type": "string",
+                                            "format": "ipv4",
+                                            "description": "IPv4 address"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "format": "ipv6",
+                                            "description": "IPv6 address"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                "tmpdir": {
+                    "type": "string",
+                    "default": "/var/spool/halon/tmp/dlpd",
+                    "description": "Temp path"
+                },
+                "controlsocket": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/dlpd.ctl",
+                                    "description": "socket path"
+                                },
+                                "owner": {
+                                    "type": "string",
+                                    "description": "socket owner"
+                                },
+                                "group": {
+                                    "type": "string",
+                                    "description": "socket group"
+                                },
+                                "chmod": {
+                                    "$ref": "#/definitions/mode",
+                                    "description": "socket chmod"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "port"
+                            ],
+                            "properties": {
+                                "port": {
+                                    "type": "integer",
+                                    "maximum": 65535,
+                                    "minimum": 1,
+                                    "description": "Port number"
+                                },
+                                "address": {
+                                    "description": "IP address",
+                                    "anyOf": [
+                                        {
+                                            "type": "string",
+                                            "format": "ipv4",
+                                            "description": "IPv4 address"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "format": "ipv6",
+                                            "description": "IPv6 address"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                "privdrop": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "user": {
+                            "type": "string",
+                            "description": "Privdrop user"
+                        },
+                        "group": {
+                            "type": "string",
+                            "description": "Privdrop group"
+                        }
+                    }
+                },
+                "appconf": {
+                    "type": "string",
+                    "default": "/etc/halon/dlpd-app.yaml",
+                    "description": "Application conf path"
+                },
+                "umask": {
+                    "$ref": "#/definitions/mode",
+                    "description": "Application umask after privdrop"
+                }
+            }
+        }
+    },
+    "definitions": {
+        "mode": {
+            "type": "string",
+            "pattern": "^[0-7][0-7][0-7][0-7]$",
+            "minLength": 4,
+            "maxLength": 4
+        }
+    }
+}

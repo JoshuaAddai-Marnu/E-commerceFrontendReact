@@ -1,0 +1,804 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "oneOf": [
+    {
+      "properties": {
+        "version": {
+          "$ref": "#/definitions/version"
+        },
+        "mappings": {
+          "$ref": "#/definitions/config/properties/mappings"
+        },
+        "components": {
+          "$ref": "#/definitions/config/properties/components"
+        }
+      },
+      "required": [
+        "version",
+        "mappings",
+        "components"
+      ]
+    },
+    {
+      "properties": {
+        "version": {
+          "$ref": "#/definitions/version"
+        },
+        "ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/config"
+          }
+        }
+      },
+      "required": [
+        "version",
+        "ids"
+      ]
+    }
+  ],
+  "definitions": {
+    "version": {
+      "type": "string",
+      "enum": ["1.12"],
+      "description": "The software version the configuration was created for"
+    },
+    "config": {
+      "properties": {
+        "mappings": {
+          "type": "object",
+          "properties": {
+            "transaction": {
+              "type": "object",
+              "description": "The field to uniquely identify an Elasticsearch document (e.g. _id)",
+              "properties": {
+                "id": {
+                  "$ref": "#/definitions/elasticfield"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "keyword",
+                    "text",
+                    ""
+                  ]
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "additionalProperties": false
+            },
+            "timestamp": {
+              "type": "object",
+              "description": "The field to sort by default (e.g. @timestamp)",
+              "properties": {
+                "id": {
+                  "$ref": "#/definitions/elasticfield"
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "additionalProperties": false
+            },
+            "aggregations": {
+              "type": "object",
+              "properties": {
+                "timestamp": {
+                  "type": "object",
+                  "description": "The field to sort by default for aggregated data (e.g. @timestamp)",
+                  "properties": {
+                    "id": {
+                      "$ref": "#/definitions/elasticfield"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "timestamp"
+              ],
+              "additionalProperties": false
+            },
+            "fields": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/fielditem"
+              }
+            }
+          },
+          "required": [
+            "transaction",
+            "timestamp",
+            "aggregations"
+          ],
+          "additionalProperties": false
+        },
+        "components": {
+          "type": "object",
+          "properties": {
+            "history": {
+              "type": "object",
+              "properties": {
+                "chart": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "views": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "elasticsearch": {
+                        "type": "object",
+                        "properties": {
+                          "index": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "chart": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "sort": {
+                        "type": "object",
+                        "properties": {
+                          "default": {
+                            "type": "object",
+                            "properties": {
+                              "field": {
+                                "type": "string"
+                              },
+                              "direction": {
+                                "type": "string",
+                                "enum": [
+                                  "asc",
+                                  "desc"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "field"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "fields": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "default"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "header": {
+                        "type": "object",
+                        "properties": {
+                          "style": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "body": {
+                        "type": "object",
+                        "properties": {
+                          "style": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "header": {
+                              "type": "object",
+                              "properties": {
+                                "style": {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "body": {
+                              "type": "object",
+                              "properties": {
+                                "style": {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "$ref": "#/definitions/elasticfieldtype"
+                            },
+                            "sortable": {
+                              "type": "boolean"
+                            },
+                            "format": {
+                              "type": "string",
+                              "const": "text"
+                            },
+                            "style": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string"
+                              }
+                            },
+                            "values": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/definitions/formatvalue"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "sort"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "preview": {
+              "type": "object",
+              "properties": {
+                "layout": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "fields",
+                          "message",
+                          "headers"
+                        ]
+                      },
+                      "column": {
+                        "type": "number"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "object",
+                        "properties": {
+                          "preview": {
+                            "type": "object",
+                            "properties": {
+                              "html": {
+                                "type": "boolean"
+                              },
+                              "plain": {
+                                "type": "boolean"
+                              },
+                              "default": {
+                                "type": "string",
+                                "enum": [
+                                  "html",
+                                  "plain"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "default"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "elasticsearch": {
+                        "type": "object",
+                        "properties": {
+                          "index": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/definitions/fielditem"
+                        }
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "statistics": {
+              "type": "object",
+              "properties": {
+                "colors": {
+                  "$ref": "#/definitions/colors"
+                },
+                "legends": {
+                  "$ref": "#/definitions/legends"
+                },
+                "charts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Set the Chart ID"
+                      },
+                      "type": {
+                        "$ref": "#/definitions/charttype"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "colors": {
+                        "$ref": "#/definitions/colors"
+                      },
+                      "legends": {
+                        "$ref": "#/definitions/legends"
+                      },
+                      "splitSeries": {
+                        "type": "boolean",
+                        "description": "Break down values as separate series"
+                      },
+                      "trackTotalHits": {
+                        "type": [
+                          "number",
+                          "boolean"
+                        ]
+                      },
+                      "formatter": {
+                        "type": "object",
+                        "description": "Format values as specific types (date, percentage etc)",
+                        "properties": {
+                          "xaxis": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "percentage",
+                                  "metric",
+                                  "date"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "yaxis": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "percentage",
+                                  "metric",
+                                  "date"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "label": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "percentage",
+                                  "metric",
+                                  "date"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "elasticsearch": {
+                        "type": "object",
+                        "properties": {
+                          "index": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "query": {
+                        "type": "string",
+                        "description": "The query for Elasticsearch aggregation (https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html)"
+                      },
+                      "chart": {
+                        "type": "object",
+                        "description": "Chart properties",
+                        "properties": {
+                          "stacked": {
+                            "type": "boolean",
+                            "description": "Stack values on top of each other"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "bar": {
+                        "type": "object",
+                        "description": "Properties specific for bar charts",
+                        "properties": {
+                          "stacked": {
+                            "type": "boolean",
+                            "description": "Stack values on top of each other"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "area": {
+                        "type": "object",
+                        "description": "Properties specific for area charts",
+                        "properties": {
+                          "stacked": {
+                            "type": "boolean",
+                            "description": "Stack values on top of each other"
+                          },
+                          "percentage": {
+                            "type": "boolean"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "pie": {
+                        "type": "object",
+                        "description": "Properties specific for pie charts",
+                        "properties": {
+                          "donut": {
+                            "type": "boolean"
+                          },
+                          "startAngle": {
+                            "type": "number"
+                          },
+                          "endAngle": {
+                            "type": "number"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "table": {
+                        "type": "object",
+                        "description": "Properties specific for tables",
+                        "properties": {
+                          "showTotal": {
+                            "type": "boolean"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "views": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "filters": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/definitions/chartfilter"
+                        }
+                      },
+                      "charts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "Chart ID"
+                            },
+                            "properties": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "filters": {
+                                  "type": "array",
+                                  "items": {
+                                    "$ref": "#/definitions/chartfilter"
+                                  }
+                                },
+                                "grid": {
+                                  "type": "object",
+                                  "properties": {
+                                    "w": {
+                                      "type": "number"
+                                    },
+                                    "h": {
+                                      "type": "number"
+                                    },
+                                    "x": {
+                                      "type": "number"
+                                    },
+                                    "y": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "id"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "charts"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "charts"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "history",
+            "preview",
+            "statistics"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "mappings",
+        "components"
+      ]
+    },
+    "elasticfield": {
+      "type": "string",
+      "description": "Elasticsearch field"
+    },
+    "elasticfieldtype": {
+      "type": "string",
+      "description": "Elasticsearch field type",
+      "enum": [
+        "keyword",
+        "date",
+        "ip",
+        "text",
+        "long",
+        "double"
+      ]
+    },
+    "fielditem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/elasticfield"
+        },
+        "label": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/elasticfieldtype"
+        },
+        "sortable": {
+          "type": "boolean"
+        },
+        "format": {
+          "type": "string",
+          "const": "text"
+        },
+        "style": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/formatvalue"
+          }
+        },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": {
+              "type": "string",
+              "enum": ["jobid", "grouping", "localips", "remoteip", "transportid", "recipientdomain", "remotemx"]
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "formatvalue": {
+      "type": "object",
+      "description": "Format or change the presentation of specific values",
+      "properties": {
+        "value": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string",
+          "const": "badge"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "colors": {
+      "type": "object",
+      "properties": {
+        "palette": {
+          "type": "array",
+          "description": "A list of colors (HEX) that will be used for charts",
+          "items": {
+            "type": "string"
+          }
+        },
+        "values": {
+          "type": "object",
+          "description": "Map specific values to a color (HEX) that will be used for charts",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "legends": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value",
+              "label"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "charttype": {
+      "type": "string",
+      "description": "Elasticsearch field type",
+      "enum": [
+        "bar",
+        "pie",
+        "area",
+        "label",
+        "table"
+      ]
+    },
+    "chartfilter": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "operator": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "value",
+        "operator"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

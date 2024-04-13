@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$ref": "file:../web/1.9-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.8-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.7-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.6-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.5-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.4-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.3-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.2-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.13-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.12-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.11-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.10-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.1-stable/web.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.0-stable/web.schema.json"
+    }
+  ]
+}

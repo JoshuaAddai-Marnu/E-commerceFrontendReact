@@ -1,0 +1,55 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The rate (rated) settings",
+    "markdownDescription": "The [rate](https://docs.halon.io/hsl/functions.html#core.rate) (`rated`) settings",
+    "additionalProperties": false,
+    "required": ["version"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["6.0"],
+            "description": "The software version the configuration was created for"
+        },
+        "peers": {
+            "type": "array",
+            "description": "rated peers",
+            "markdownDescription": "`rated` peers",
+            "minItems": 1,
+            "items": {
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "format": "ipv4",
+                        "description": "IPv4 address"
+                    },
+                    {
+                        "type": "string",
+                        "format": "ipv6",
+                        "description": "IPv6 address"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Hostname"
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["address"],
+                        "properties": {
+                            "address": {
+                                "type": "string",
+                                "description": "Hostname"
+                            },
+                            "expand": {
+                                "type": "boolean",
+                                "default": false,
+                                "description": "Add all IP addresses for the hostname as unique peers (If an IP address that is assigned to a local network interface is included it will be skipped)"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

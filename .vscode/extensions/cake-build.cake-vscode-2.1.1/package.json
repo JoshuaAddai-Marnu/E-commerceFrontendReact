@@ -1,0 +1,665 @@
+{
+	"name": "cake-vscode",
+	"displayName": "Cake",
+	"publisher": "cake-build",
+	"description": "Cake build script language support.",
+	"version": "2.1.1",
+	"icon": "images/cake.png",
+	"private": true,
+	"author": {
+		"name": "Cake Build"
+	},
+	"bugs": {
+		"url": "https://github.com/cake-build/cake-vscode/issues"
+	},
+	"homepage": "https://cakebuild.net",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cake-build/cake-vscode.git"
+	},
+	"galleryBanner": {
+		"color": "#FFE05C",
+		"theme": "light"
+	},
+	"engines": {
+		"vscode": "^1.24.0"
+	},
+	"categories": [
+		"Programming Languages",
+		"Snippets",
+		"Debuggers"
+	],
+	"activationEvents": [
+		"onCommand:cake.bootstrapper",
+		"onCommand:cake.configuration",
+		"onCommand:cake.addAddin",
+		"onCommand:cake.addTool",
+		"onCommand:cake.addModule",
+		"onCommand:cake.debug",
+		"onCommand:cake.buildFile",
+		"onCommand:cake.install",
+		"onCommand:cake.intellisense",
+		"onCommand:cake.runTask",
+		"onCommand:cake.debugTask",
+		"onCommand:workbench.action.tasks.runTask",
+		"onLanguage:csharp"
+	],
+	"main": "./out/src/cakeMain",
+	"contributes": {
+		"breakpoints": [
+			{
+				"language": "csharp"
+			}
+		],
+		"snippets": [
+			{
+				"language": "csharp",
+				"path": "./snippets/snippets.json"
+			}
+		],
+		"commands": [
+			{
+				"command": "cake.bootstrapper",
+				"title": "Cake: Install a bootstrapper"
+			},
+			{
+				"command": "cake.configuration",
+				"title": "Cake: Install a configuration file"
+			},
+			{
+				"command": "cake.addAddin",
+				"title": "Cake: Add addin from NuGet"
+			},
+			{
+				"command": "cake.addTool",
+				"title": "Cake: Add tool from NuGet"
+			},
+			{
+				"command": "cake.addModule",
+				"title": "Cake: Add module from NuGet"
+			},
+			{
+				"command": "cake.debug",
+				"title": "Cake: Install debug dependencies"
+			},
+			{
+				"command": "cake.buildFile",
+				"title": "Cake: Install sample build file"
+			},
+			{
+				"command": "cake.install",
+				"title": "Cake: Install to workspace"
+			},
+			{
+				"command": "cake.intellisense",
+				"title": "Cake: Update intellisense support"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Cake configuration",
+			"properties": {
+				"cake.taskRunner": {
+					"type": "object",
+					"default": {
+						"autoDetect": true,
+						"installNetTool": true,
+						"scriptsIncludePattern": "**/*.cake",
+						"scriptsExcludePattern": "",
+						"taskRegularExpression": "Task\\s*?\\(\\s*?\"(.*?)\"\\s*?\\)",
+						"launchCommand": null,
+						"verbosity": "normal"
+					},
+					"description": "The Cake Task Runner settings",
+					"properties": {
+						"autoDetect": {
+							"type": "boolean",
+							"description": "A boolean value which toggles auto detection of Tasks on or off.",
+							"default": true
+						},
+						"installNetTool": {
+							"type": "boolean",
+							"description": "Auto-install the Cake .NET Tool.",
+							"default": true
+						},
+						"scriptsIncludePattern": {
+							"type": "string",
+							"description": "A glob pattern which specifies how to detect `.cake` files in the current workspace.",
+							"default": "**/*.cake"
+						},
+						"scriptsExcludePattern": {
+							"type": "string",
+							"description": "A glob pattern which specifies all files and folders that shouldn't be included in search of current workspace.",
+							"default": ""
+						},
+						"taskRegularExpression": {
+							"type": "string",
+							"description": "A regular expression pattern which is used to identify Tasks within the *.cake files.",
+							"default": "Task\\s*?\\(\\s*?\"(.*?)\"\\s*?\\)"
+						},
+						"launchCommand": {
+							"type": [
+								"null",
+								"object"
+							],
+							"description": "The name of the build script to run, when running a task. the default of `null` is equal to {\"default\": \"~/.dotnet/tools/dotnet-cake\", \"win32\": \"dotnet-cake.exe\"}",
+							"default": null,
+							"required": [
+								"default"
+							],
+							"properties": {
+								"default": {
+									"type": "string",
+									"description": "The default name of the build script to run.",
+									"default": "~/.dotnet/tools/dotnet-cake"
+								},
+								"win32": {
+									"type": [
+										"null",
+										"string"
+									],
+									"description": "The win32-specific name of the build script to run.",
+									"default": "dotnet-cake.exe"
+								},
+								"darwin": {
+									"type": [
+										"null",
+										"string"
+									],
+									"description": "The darwin-specific name of the build script to run.",
+									"default": null
+								},
+								"linux": {
+									"type": [
+										"null",
+										"string"
+									],
+									"description": "The linux-specific name of the build script to run.",
+									"default": null
+								},
+								"aix": {
+									"type": [
+										"null",
+										"string"
+									],
+									"description": "The aix-specific name of the build script to run.",
+									"default": null
+								},
+								"freebsd": {
+									"type": [
+										"null",
+										"string"
+									],
+									"description": "The freebsd-specific name of the build script to run.",
+									"default": null
+								},
+								"openbsd": {
+									"type": [
+										"null",
+										"string"
+									],
+									"description": "The openbsd-specific name of the build script to run.",
+									"default": null
+								},
+								"sunos": {
+									"type": [
+										"null",
+										"string"
+									],
+									"description": "The sunos-specific name of the build script to run.",
+									"default": null
+								}
+							}
+						},
+						"verbosity": {
+							"type": "string",
+							"description": "allows you to control cake `run task` verbosity",
+							"enum": [
+								"diagnostic",
+								"minimal",
+								"normal",
+								"quiet",
+								"verbose"
+							],
+							"enumDescriptions": [
+								"Diagnostic verbosity",
+								"Minimal verbosity.",
+								"Normal verbosity.",
+								"Quiet verbosity.",
+								"Verbose verbosity."
+							],
+							"default": "normal"
+						}
+					}
+				},
+				"cake.bootstrappers": {
+					"type": "object",
+					"default": {
+						"dotnet-framework-powershell": "https://cakebuild.net/download/bootstrapper/dotnet-framework/powershell",
+						"dotnet-framework-bash": "https://cakebuild.net/download/bootstrapper/dotnet-framework/bash",
+						"dotnet-core-powershell": "https://cakebuild.net/download/bootstrapper/dotnet-core/powershell",
+						"dotnet-core-bash": "https://cakebuild.net/download/bootstrapper/dotnet-core/bash",
+						"dotnet-tool-powershell": "https://cakebuild.net/download/bootstrapper/dotnet-tool/powershell",
+						"dotnet-tool-bash": "https://cakebuild.net/download/bootstrapper/dotnet-tool/bash"
+					},
+					"description": "The Cake bootstrapper URIs.",
+					"properties": {
+						"dotnet-framework-powershell": {
+							"type": "string",
+							"description": "Download URL for bootstrapper: dotnet-framework/powershell",
+							"default": "https://cakebuild.net/download/bootstrapper/dotnet-framework/powershell"
+						},
+						"dotnet-framework-bash": {
+							"type": "string",
+							"description": "Download URL for bootstrapper: dotnet-framework/bash",
+							"default": "https://cakebuild.net/download/bootstrapper/dotnet-framework/bash"
+						},
+						"dotnet-core-powershell": {
+							"type": "string",
+							"description": "Download URL for bootstrapper: core/powershell",
+							"default": "https://cakebuild.net/download/bootstrapper/dotnet-core/powershell"
+						},
+						"dotnet-core-bash": {
+							"type": "string",
+							"description": "Download URL for bootstrapper: core/bash",
+							"default": "https://cakebuild.net/download/bootstrapper/dotnet-core/bash"
+						},
+						"dotnet-tool-powershell": {
+							"type": "string",
+							"description": "Download URL for bootstrapper: dotnet-tool/powershell",
+							"default": "https://cakebuild.net/download/bootstrapper/dotnet-tool/powershell"
+						},
+						"dotnet-tool-bash": {
+							"type": "string",
+							"description": "Download URL for bootstrapper: dotnet-tool/bash",
+							"default": "https://cakebuild.net/download/bootstrapper/dotnet-tool/bash"
+						}
+					}
+				},
+				"cake.configuration": {
+					"type": "object",
+					"default": {
+						"config": "https://cakebuild.net/download/configuration"
+					},
+					"description": "The Cake configuration URI.",
+					"properties": {
+						"config": {
+							"type": "string",
+							"description": "The Cake configuration URI.",
+							"default": "https://cakebuild.net/download/configuration"
+						}
+					}
+				},
+				"cake.codeLens": {
+					"type": "object",
+					"description": "The Cake codelens configuration",
+					"default": {
+						"showCodeLens": true,
+						"installNetTool": true,
+						"scriptsIncludePattern": "**/*.cake",
+						"taskRegularExpression": "Task\\s*?\\(\\s*?\"(.*?)\"\\s*?\\)",
+						"debugTask": {
+							"verbosity": "normal",
+							"debugType": "coreclr",
+							"request": "launch",
+							"program": null,
+							"cwd": "${workspaceRoot}",
+							"stopAtEntry": false,
+							"console": "internalConsole",
+							"logging": {
+								"exceptions": false,
+								"moduleLoad": false,
+								"programOutput": false,
+								"engineLogging": false,
+								"browserStdOut": false
+							}
+						}
+					},
+					"properties": {
+						"showCodeLens": {
+							"type": "boolean",
+							"description": "Show codelens for tasks in Cake files",
+							"default": true
+						},
+						"installNetTool": {
+							"type": "boolean",
+							"description": "Auto-install the Cake .NET Tool.",
+							"default": true
+						},
+						"scriptsIncludePattern": {
+							"type": "string",
+							"description": "Glob pattern to detect cake build scripts in current workspace",
+							"default": "**/*.cake"
+						},
+						"taskRegularExpression": {
+							"type": "string",
+							"description": "Regular expression pattern to get tasks from Cake script",
+							"default": "Task\\s*?\\(\\s*?\"(.*?)\"\\s*?\\)"
+						},
+						"debugTask": {
+							"type": "object",
+							"description": "Cake debug task configuration",
+							"properties": {
+								"verbosity": {
+									"type": "string",
+									"description": "Represents Cake debug task output verbosity",
+									"enum": [
+										"diagnostic",
+										"minimal",
+										"normal",
+										"quiet",
+										"verbose"
+									],
+									"enumDescriptions": [
+										"Diagnostic verbosity",
+										"Minimal verbosity.",
+										"Normal verbosity.",
+										"Quiet verbosity.",
+										"Verbose verbosity."
+									],
+									"default": "diagnostic"
+								},
+								"debugType": {
+									"type": "string",
+									"description": "The type of the debug session",
+									"default": "coreclr"
+								},
+								"request": {
+									"type": "string",
+									"description": "The request type of the debug session",
+									"default": "launch"
+								},
+								"program": {
+									"type": [
+										"null",
+										"object"
+									],
+									"description": "An Object describing the executable for the debug session. The default of `null` is equal to is equal to {\"default\": \"~/.dotnet/tools/dotnet-cake\", \"win32\": \"dotnet-cake.exe\"}",
+									"default": null,
+									"required": [
+										"default"
+									],
+									"properties": {
+										"default": {
+											"type": "string",
+											"description": "The default executable for the debug session.",
+											"default": "~/.dotnet/tools/dotnet-cake"
+										},
+										"win32": {
+											"type": [
+												"null",
+												"string"
+											],
+											"description": "The win32-specific executable for the debug session.",
+											"default": "dotnet-cake.exe"
+										},
+										"darwin": {
+											"type": [
+												"null",
+												"string"
+											],
+											"description": "The darwin-specific executable for the debug session.",
+											"default": null
+										},
+										"linux": {
+											"type": [
+												"null",
+												"string"
+											],
+											"description": "The linux-specific executable for the debug session.",
+											"default": null
+										},
+										"aix": {
+											"type": [
+												"null",
+												"string"
+											],
+											"description": "The aix-specific executable for the debug session.",
+											"default": null
+										},
+										"freebsd": {
+											"type": [
+												"null",
+												"string"
+											],
+											"description": "The freebsd-specific executable for the debug session.",
+											"default": null
+										},
+										"openbsd": {
+											"type": [
+												"null",
+												"string"
+											],
+											"description": "The openbsd-specific executable for the debug session.",
+											"default": null
+										},
+										"sunos": {
+											"type": [
+												"null",
+												"string"
+											],
+											"description": "The sunos-specific executable for the debug session.",
+											"default": null
+										}
+									}
+								},
+								"cwd": {
+									"type": "string",
+									"description": "The working directory of the Cake script being debugged. Default is the current workspace.",
+									"default": "${workspaceRoot}"
+								},
+								"stopAtEntry": {
+									"type": "boolean",
+									"description": "If true, the debugger should stop at the entry point of the target.",
+									"default": false
+								},
+								"console": {
+									"type": "string",
+									"description": "Where to launch the debug target.",
+									"enum": [
+										"internalConsole",
+										"integratedTerminal",
+										"externalTerminal"
+									],
+									"enumDescriptions": [
+										"Output to the VS Code Debug Console. This doesn't support reading console input (ex:Console.ReadLine)",
+										"VS Code's integrated terminal",
+										"External terminal that can be configured via user settings"
+									],
+									"default": "internalConsole"
+								},
+								"logging": {
+									"description": "Optional flags to determine what types of messages should be logged to the output window.",
+									"type": "object",
+									"properties": {
+										"exceptions": {
+											"type": "boolean",
+											"description": "Optional flag to determine whether exception messages should be logged to the output window.",
+											"default": false
+										},
+										"moduleLoad": {
+											"type": "boolean",
+											"description": "Optional flag to determine whether module load events should be logged to the output window.",
+											"default": false
+										},
+										"programOutput": {
+											"type": "boolean",
+											"description": "Optional flag to determine whether program output should be logged to the output window when not using an external console.",
+											"default": false
+										},
+										"engineLogging": {
+											"type": "boolean",
+											"description": "Optional flag to determine whether diagnostic engine logs should be logged to the output window.",
+											"default": false
+										},
+										"browserStdOut": {
+											"type": "boolean",
+											"description": "Optional flag to determine if stdout text from the launching web browser should be logged to the output window.",
+											"default": false
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"cake.codeSymbols": {
+					"type": "object",
+					"description": "The Cake code symbols configuration",
+					"default": {
+						"contextRegularExpression": "(Setup|TaskSetup|Teardown|TaskTeardown|RunTarget)\\s*?",
+						"taskRegularExpression": "Task\\s*?\\(\\s*?\"(.*?)\"\\s*?\\)"
+					},
+					"properties": {
+						"contextRegularExpression": {
+							"type": "string",
+							"description": "Regular expression pattern to get contexts from Cake script",
+							"default": "(Setup|TaskSetup|Teardown|TaskTeardown|RunTarget)\\s*?"
+						},
+						"taskRegularExpression": {
+							"type": "string",
+							"description": "Regular expression pattern to get tasks from Cake script",
+							"default": "(Task\\s*?\\(\\s*?\"(.*?)\"\\s*?\\)|Setup\\(.*=>|TearDown\\(.*=>|RunTarget\\(.*\\);)"
+						}
+					}
+				}
+			}
+		},
+		"debuggers": [
+			{
+				"type": "cake-tool",
+				"label": "Cake Tool",
+				"initialConfigurations": [
+					{
+						"name": "Cake: Debug Script (.NET Tool)",
+						"type": "coreclr",
+						"request": "launch",
+						"program": "dotnet-cake",
+						"windows": {
+							"program": "dotnet-cake.exe"
+						},
+						"args": [
+							"${workspaceRoot}/build.cake",
+							"--debug",
+							"--verbosity=diagnostic"
+						],
+						"cwd": "${workspaceRoot}",
+						"stopAtEntry": false,
+						"externalConsole": false,
+						"justMyCode": false
+					}
+				],
+				"configurationSnippets": [
+					{
+						"label": "Cake: Debug Script (.NET Tool)",
+						"description": "test",
+						"body": {
+							"name": "Cake: Debug Script (.NET Tool)",
+							"type": "coreclr",
+							"request": "launch",
+							"program": "dotnet-cake",
+							"windows": {
+								"program": "dotnet-cake.exe"
+							},
+							"args": [
+								"^\"\\${workspaceRoot}/build.cake\"",
+								"--debug",
+								"--verbosity=diagnostic"
+							],
+							"cwd": "^\"\\${workspaceRoot}\"",
+							"stopAtEntry": false,
+							"externalConsole": false,
+							"justMyCode": false
+						}
+					}
+				]
+			}
+		],
+		"languages": [
+			{
+				"id": "ini",
+				"filenames": [
+					"cake.config"
+				]
+			}
+		],
+		"taskDefinitions": [
+			{
+				"type": "cake",
+				"required": [
+					"script"
+				],
+				"properties": {
+					"script": {
+						"type": "string",
+						"description": "The script to execute"
+					}
+				}
+			}
+		],
+		"problemMatchers": [
+			{
+				"name": "cake",
+				"owner": "cake",
+				"fileLocation": [
+					"absolute"
+				],
+				"pattern": {
+					"regexp": "^(.+)\\((\\d+),(\\d+)\\): (error|warning) (\\w+): (.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"code": 5,
+					"message": 6
+				}
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "npm run ensureCi && tsc -watch -p ./",
+		"test": "npm run compile && node ./out/test/runTest.js",
+		"depcheck": "depcheck",
+		"ensureCi": "node -e \"const fs=require('fs'); if (fs.existsSync('./node_modules/')) { process.exit(123); }\" && npm ci"
+	},
+	"dependencies": {
+		"adm-zip": "^0.5.9",
+		"byline": "^5.0.0",
+		"https-proxy-agent": "^5.0.1",
+		"ini": "^3.0.1",
+		"node-fetch": "^2.6.7",
+		"request": "^2.88.2",
+		"xml2js": "^0.4.23"
+	},
+	"devDependencies": {
+		"@types/byline": "^4.2.33",
+		"@types/glob": "^8.0.0",
+		"@types/ini": "^1.3.31",
+		"@types/mocha": "^10.0.0",
+		"@types/node": "^18.8.3",
+		"@types/node-fetch": "^2.6.2",
+		"@types/vscode": "^1.24.0",
+		"@types/xml2js": "^0.4.9",
+		"depcheck": "^1.4.3",
+		"glob": "^8.0.3",
+		"mocha": "^10.0.0",
+		"typemoq": "^2.1.0",
+		"typescript": "^4.8.4",
+		"vscode-test": "^1.6.1"
+	},
+	"extensionDependencies": [
+		"ms-dotnettools.csharp"
+	],
+	"__metadata": {
+		"id": "ef045c7e-5053-478e-9d0b-d6ade7bd99a7",
+		"publisherId": "11478351-38ae-48ba-9b01-a8fd743017cb",
+		"publisherDisplayName": "Cake Build",
+		"targetPlatform": "undefined",
+		"updated": false,
+		"isPreReleaseVersion": false,
+		"installedTimestamp": 1702301411746,
+		"preRelease": false
+	}
+}

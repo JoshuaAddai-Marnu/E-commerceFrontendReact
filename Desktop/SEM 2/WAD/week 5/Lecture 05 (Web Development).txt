@@ -1,0 +1,281 @@
+Lecture 04 Cont'd...
+
+removing extra references from the endpoints
+add [JsonIgnore] in Student.cs, Course.cs and Enrollment.cs
+
+now we need to add identity support in our application
+Things like user accounts, sign up, sign in and sign out
+
+we will also create an email service on sign up 
+
+Now go to the SchoolContext.cs file and change this line 
+(inheritance class basically):
+From
+public class SchoolContext : DbContext
+to
+public class SchoolContext : IdentityDbContext<IdentityUser>
+
+and then if you see errors install identity:
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+ 
+and
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+at the top of the SchoolContext.cs file
+
+now go to the program.cs file and add another service 
+dependency injection:
+//code
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<SchoolContext>().AddDefaultTokenProviders();
+If you see errors, add 
+
+using Microsoft.AspNetCore.Identity; 
+
+at the top of the program.cs file 
+
+Once you have made these changes and saved the files.
+Now go to tools -> NuGet package manager -> Package manager console
+And type in
+Add-migration IdentityAdded
+If it is successful, you will see a change in migrations 
+folder, after this type this in the same console:
+Update-Database
+
+*if using VS Code then type the following command in the 
+terminal:
+
+dotnet ef migrations add IdentityAdded
+
+dotnet ef database update
+
+Have a look at the database now, new tables have been added
+
+Now, Go to the tools -> NuGet Package manager 
+-> Manage NuGet packages for solution and browse and
+install the package MailKit (by Jeffrey Stedfast).
+
+if using VS Code install nuget gallery extension and then 
+using that look for this dependency: MailKit (by Jeffrey Stedfast)
+
+Now we will add the registration with email verification 
+and sign in functionalities to our existing application.
+Got to Models folder and add a new class called 
+AuthModel.cs and put this code in there:
+//code
+public class AuthModel
+ {
+ public string Email { get; set; }
+ public string Password { get; set; }
+ }
+ 
+ 
+Now in your project directory create a new folder named 
+Services (at the same level as Models and Controllers) 
+and inside this folder create two new classes named 
+EmailService.cs and EmailSettings.cs
+
+Inside the EmailService.cs file put this code:
+//code
+public class EmailService
+{
+ private readonly EmailSettings _emailSettings;
+ public EmailService(IOptions<EmailSettings> emailSettings)
+ {
+ _emailSettings = emailSettings.Value;
+ }
+ public void SendEmail(string toEmail, string subject, string body)
+ {
+ var message = new MimeMessage();
+ message.From.Add(new MailboxAddress("Support CareApp", _emailSettings.SmtpUsername));
+ message.To.Add(new MailboxAddress("Reciever Name", toEmail));
+ message.Subject = subject;
+ var textPart = new TextPart("plain")
+ {
+ Text = body
+ };
+ message.Body = textPart;
+ using (var client = new SmtpClient())
+ {
+ client.Connect(_emailSettings.SmtpServer, _emailSettings.SmtpPort,
+SecureSocketOptions.StartTls);
+ client.Authenticate(_emailSettings.SmtpUsername, _emailSettings.SmtpPassword);
+ client.Send(message);
+ client.Disconnect(true);
+ }
+ }
+}
+
+
+If you see errors make sure these libraries are added at 
+the top of this page(EmailService.cs):
+
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+using Microsoft.Extensions.Options;
+using IdentityPractice.Services;
+//this is a reference to 
+the Services folder inside the project the second file 
+that we created inside the Services folder named 
+EmailSettings.cs put this code inside it:
+
+//code
+public class EmailSettings
+ {
+ public string SmtpServer { get; set; }
+ public int SmtpPort { get; set; }
+ public string SmtpUsername { get; set; }
+ public string SmtpPassword { get; set; }
+ }
+ 
+Now go to Controllers folder and add a new empty 
+controller (by right clicking the controller folder
+and add new file -> AccountController.cs and put this 
+code inside this controller:
+
+namespace IdentityPractice.Controllers
+{
+    [Route("api/[controller]")]
+ [ApiController]
+ public class AccountController : ControllerBase
+ {
+ private readonly UserManager<IdentityUser> _userManager;
+ private readonly SignInManager<IdentityUser> _signInManager;
+ private readonly EmailService _emailService;
+ public AccountController(UserManager<IdentityUser> userManager,
+SignInManager<IdentityUser> signInManager, EmailService emailService)
+ {
+ _userManager = userManager;
+ _signInManager = signInManager;
+ _emailService = emailService;
+ }
+ [HttpPost("register")]
+ public async Task<IActionResult> Register(AuthModel model)
+ {
+ var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+ var result = await _userManager.CreateAsync(user, model.Password);
+ if (result.Succeeded)
+ {
+ // Generate an email verification token
+ var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+ // Create the verification link
+ var verificationLink = Url.Action("VerifyEmail", "Account", new { userId = user.Id, token =
+token }, Request.Scheme);
+ // Send the verification email
+ var emailSubject = "Email Verification";
+ var emailBody = $"Please verify your email by clicking the following link: {verificationLink}";
+ _emailService.SendEmail(user.Email, emailSubject, emailBody);
+
+ return Ok("User registered successfully. An email verification link has been sent.");
+ }
+ return BadRequest(result.Errors);
+ }
+ // Add an action to handle email verification
+ [HttpGet("verify-email")]
+ public async Task<IActionResult> VerifyEmail(string userId, string token)
+ {
+ var user = await _userManager.FindByIdAsync(userId);
+ if (user == null)
+ {
+ return NotFound("User not found.");
+ }
+ var result = await _userManager.ConfirmEmailAsync(user, token);
+ if (result.Succeeded)
+ {
+ return Ok("Email verification successful.");
+ }
+ return BadRequest("Email verification failed.");
+ }
+ [HttpPost("login")]
+ public async Task<IActionResult> Login(AuthModel model)
+ {
+ var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password,
+isPersistent: false, lockoutOnFailure: false);
+ if (result.Succeeded)
+ {
+ return Ok("Login successful.");
+ }
+ return Unauthorized("Invalid login attempt.");
+ }
+ }
+}
+
+If you see errors, make sure this controller has these 
+libraries at the top:
+
+using IdentityPractice.Models;
+using IdentityPractice.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+Now we need to register our email service in our program.cs 
+file:
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddScoped<EmailService>();
+
+As we have mentioned configuration section, we need to 
+add this in the appsettings.json file after the connection 
+string:
+
+"EmailSettings": {
+ "SmtpServer": "smtp.gmail.com",//only valid for gmail
+ "SmtpPort": 587,
+ "SmtpUsername": "yourgmailaccount@gmail.com",//create a sting gmail accoteunt
+ "SmtpPassword": "your gmail app password"//use one time generated app password
+ },
+
+Step 1: Enable Two-Factor Authentication (2FA) on Gmail
+Go to 
+https://myaccount.google.com/signinoptions/two-step-verification/enroll-welcome.
+
+Follow the instructions to enable two-factor authentication 
+for your Google account.
+
+Once enabled, proceed to the next step.
+
+Step 2: Generate an Application Specific Password
+Go to https://myaccount.google.com/apppasswords.
+Select the app and device you want to generate the app 
+password for.
+Click on "Generate."
+Copy the generated sixteen-digit password.
+
+Step 3: Update Application Settings
+In your ASP.NET Core application, you need to update the 
+settings to use Gmail as the email provider and provide 
+the generated application specific password.
+
+You can typically do this in the appsettings.json file or 
+through environment variables.
+
+It will not work if you do not complete these steps, and 
+I would recommend sending an email to
+yourself e.g. sender and receiver is the same account 
+because the link should be tested on the same device as 
+it is running on the local host at the moment.
+
+After you have completed all these steps run the app go 
+to the postman to test the account creation and registration 
+and email verification service.
+
+In postman, put this in the url: 
+https://localhost:44300/api/account/register
+
+Select method post, select body raw and JSON from the 
+dropdown and put this JSON object (given below) in the 
+available area and press ‘send’: (email has to be a valid 
+one, use a separate email for this and try to send an 
+email to yourself or a separate personal account)
+{
+ "Email": "receiverid@gmail.com",
+ "Password": "Password123!"
+}
+
+

@@ -1,0 +1,647 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The server (smtpd) startup configuration",
+    "markdownDescription": "The server (`smtpd`) [startup configuration](https://docs.halon.io/manual/archive/master/config_startup.html)",
+    "additionalProperties": false,
+    "required": ["version"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["5.6"],
+            "description": "The software version the configuration was created for"
+        },
+        "servers": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "The virtual servers (listeners)",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "listeners"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/definitions/objectid",
+                        "description": "Server ID"
+                    },
+                    "listeners": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "minItems": 1,
+                        "description": "The IP addresses and ports to listen on. If no IP addresses are specificed it will bind to any (both IPv4 and IPv6)",
+                        "items": {
+                            "oneOf": [
+                                {
+                                    "type": "object",
+                                    "required": [
+                                        "port"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "id": {
+                                            "$ref": "#/definitions/objectid",
+                                            "description": "The listen ID, referenced by running configuration"
+                                        },
+                                        "port": {
+                                            "type": "integer",
+                                            "maximum": 65535,
+                                            "minimum": 1,
+                                            "description": "Port number"
+                                        },
+                                        "address": {
+                                            "description": "IP address",
+                                            "anyOf": [
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv4",
+                                                    "description": "IPv4 address"
+                                                },
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv6",
+                                                    "description": "IPv6 address"
+                                                }
+                                            ]
+                                        },
+                                        "backlog": {
+                                            "type": "integer",
+                                            "maximum": 65535,
+                                            "minimum": 1,
+                                            "description": "Listen backlog"
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "object",
+                                    "required": [
+                                        "path"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "id": {
+                                            "$ref": "#/definitions/objectid",
+                                            "description": "The listen ID, referenced by running configuration"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "description": "Socket path"
+                                        },
+                                        "owner": {
+                                            "type": "string",
+                                            "description": "Socket owner"
+                                        },
+                                        "group": {
+                                            "type": "string",
+                                            "description": "Socket group"
+                                        },
+                                        "chmod": {
+                                            "$ref": "#/definitions/mode",
+                                            "description": "Socket chmod"
+                                        },
+                                        "backlog": {
+                                            "type": "integer",
+                                            "maximum": 65535,
+                                            "minimum": 1,
+                                            "description": "The listen backlog"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "proxyprotocol": {
+                        "description": "Allow use of the PROXY protocol (v1 and v2) from IP(s)",
+                        "default": false,
+                        "anyOf": [
+                            {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string",
+                                            "format": "ipv4",
+                                            "description": "IPv4 address"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "format": "ipv6",
+                                            "description": "IPv6 address"
+                                        }
+                                    ]
+                                },
+                                "description": "A list of IP addresses"
+                            },
+                            {
+                                "type": "boolean",
+                                "description": "true is any IP address and false is disabled",
+                                "markdownDescription": "`true` is any IP address and `false` is disabled"
+                            }
+                        ]
+                    },
+                    "threads": {
+                        "type": "object",
+                        "description": "Thread pool settings",
+                        "additionalProperties": false,
+                        "properties": {
+                            "event": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "default": 4,
+                                "description": "Number of event loop threads"
+                            },
+                            "script": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "default": 32,
+                                "description": "Number of script pool threads"
+                            }
+                        }
+                    },
+                    "scripting": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "concurrency": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Number of scripts running using cooperative multitasking"
+                            },
+                            "stacksize": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "default": 2097152,
+                                "description": "Script stacksize in bytes"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "queues": {
+            "type": "object",
+            "description": "Queue settings",
+            "additionalProperties": false,
+            "properties": {
+                "threads": {
+                    "type": "object",
+                    "description": "Thread pool settings",
+                    "additionalProperties": false,
+                    "properties": {
+                        "event": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 4,
+                            "description": "Number of event loop threads"
+                        },
+                        "script": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 32,
+                            "description": "Number of script pool threads"
+                        }
+                    }
+                },
+                "scripting": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "concurrency": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Number of scripts running using cooperative multitasking"
+                        },
+                        "stacksize": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 2097152,
+                            "description": "Script stacksize in bytes"
+                        }
+                    }
+                }
+            }
+        },
+        "pki": {
+            "type": "object",
+            "description": "The X.509 certificates and private keys",
+            "additionalProperties": false,
+            "properties": {
+                "private": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "description": "Private keys, possibly with X.509 certificates",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "id",
+                            "privatekey"
+                        ],
+                        "properties": {
+                            "id": {
+                                "$ref": "#/definitions/objectid",
+                                "description": "The key ID"
+                            },
+                            "certificate": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "data"
+                                        ],
+                                        "properties": {
+                                            "data": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The PKCS #8 PEM data"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "path"
+                                        ],
+                                        "properties": {
+                                            "path": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The PKCS #8 PEM path"
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "privatekey": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "data"
+                                        ],
+                                        "properties": {
+                                            "data": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The private key data"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "path"
+                                        ],
+                                        "properties": {
+                                            "path": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The private key path"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "plugins": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "A list of following plugins",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "path"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/definitions/objectid",
+                        "description": "Plugin ID"
+                    },
+                    "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The plugin (.so) path"
+                    },
+                    "config": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "description": "The plugin config"
+                    }
+                }
+            }
+        },
+        "scripting": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ffi": {
+                    "type": "boolean",
+                    "description": "Allow use of the FFI functions",
+                    "default": false
+                },
+                "rootpath": {
+                    "type": "string",
+                    "description": "File root path for file access"
+                }
+            }
+        },
+        "resolver": {
+            "type": "object",
+            "description": "DNS resolver settings",
+            "additionalProperties": false,
+            "properties": {
+                "threads": {
+                    "type": "object",
+                    "description": "Thread pool settings",
+                    "additionalProperties": false,
+                    "properties": {
+                        "event": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 1,
+                            "description": "Number of event loop threads"
+                        }
+                    }
+                }
+            }
+        },
+        "spool": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "default": "/var/spool/halon/queue",
+                    "description": "Mail spool path"
+                },
+                "minfree": {
+                    "type": "object",
+                    "description": "Minimum free requirements on the spool disk",
+                    "additionalProperties": false,
+                    "properties": {
+                        "inodes": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "Number of free inodes"
+                        },
+                        "bytes": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "Number of free bytes"
+                        }
+                    }
+                },
+                "fsync": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Commits queued messages to storage device, necessary for transaction safety and durability"
+                },
+                "corrupt": {
+                    "type": "string",
+                    "enum": ["unlink", "rename", "ignore"],
+                    "default": "unlink",
+                    "description": "The default action on corrupt queue files"
+                },
+                "threads": {
+                    "type": "object",
+                    "description": "Thread pool settings",
+                    "additionalProperties": false,
+                    "properties": {
+                        "loader": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 32,
+                            "description": "Number of loader threads"
+                        },
+                        "update": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 32,
+                            "description": "Number of update threads"
+                        }
+                    }
+                }
+            }
+        },
+        "environment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "syslog": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "ident": {
+                            "type": "string",
+                            "description": "Syslog identity"
+                        },
+                        "pid": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Log with pid"
+                        },
+                        "mask": {
+                            "type": "number",
+                            "description": "Mask log levels"
+                        }
+                    }
+                },
+                "controlsocket": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "markdownDescription": "[Control socket](https://docs.halon.io/manual/archive/master/comp_install.html#control-sockets) ([Protocol Buffers](https://docs.halon.io/go/protobufschemas))",
+                            "description": "Control socket (Protocol Buffers)",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/smtpd.ctl",
+                                    "description": "Socket path"
+                                },
+                                "owner": {
+                                    "type": "string",
+                                    "description": "Socket owner"
+                                },
+                                "group": {
+                                    "type": "string",
+                                    "description": "Socket group"
+                                },
+                                "chmod": {
+                                    "$ref": "#/definitions/mode",
+                                    "description": "Socket chmod"
+                                },
+                                "backlog": {
+                                    "type": "integer",
+                                    "maximum": 65535,
+                                    "minimum": 1,
+                                    "description": "Listen backlog"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "markdownDescription": "[Control socket](https://docs.halon.io/manual/archive/master/comp_install.html#control-sockets) ([Protocol Buffers](https://docs.halon.io/go/protobufschemas))",
+                            "description": "Control socket (Protocol Buffers)",
+                            "additionalProperties": false,
+                            "required": [
+                                "port"
+                            ],
+                            "properties": {
+                                "port": {
+                                    "type": "integer",
+                                    "maximum": 65535,
+                                    "minimum": 1,
+                                    "description": "Port number"
+                                },
+                                "address": {
+                                    "description": "IP address",
+                                    "anyOf": [
+                                        {
+                                            "type": "string",
+                                            "format": "ipv4",
+                                            "description": "IPv4 address"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "format": "ipv6",
+                                            "description": "IPv6 address"
+                                        }
+                                    ]
+                                },
+                                "backlog": {
+                                    "type": "integer",
+                                    "maximum": 65535,
+                                    "minimum": 1,
+                                    "description": "Listen backlog"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sockets": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "rated": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/rated.sock",
+                                    "description": "Socket path to rate process",
+                                    "markdownDescription": "Socket path to [rate](https://docs.halon.io/hsl/functions.html#core.rate) process"
+                                }
+                            }
+                        },
+                        "dlpd": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/dlpd.sock",
+                                    "description": "Socket path to content inspection process"
+                                }
+                            }
+                        }
+                    }
+                },
+                "privdrop": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "user": {
+                            "type": "string",
+                            "description": "Privdrop user"
+                        },
+                        "group": {
+                            "type": "string",
+                            "description": "Privdrop group"
+                        }
+                    }
+                },
+                "appconf": {
+                    "type": "string",
+                    "default": "/etc/halon/smtpd-app.yaml",
+                    "markdownDescription": "[Running configuration](https://docs.halon.io/manual/archive/master/config_smtpd.html) path",
+                    "description": "Running configuration path"
+                },
+                "policyconf": {
+                    "type": "string",
+                    "default": "/etc/halon/smtpd-policy.yaml",
+                    "description": "Active queue policy configuration path"
+                },
+                "suspendconf": {
+                    "type": "string",
+                    "default": "/etc/halon/smtpd-suspend.yaml",
+                    "description": "Active queue suspend configuration path"
+                },
+                "deliveryconf": {
+                    "type": "string",
+                    "default": "/etc/halon/smtpd-delivery.yaml",
+                    "description": "Delivery configuration path"
+                },
+                "publicsuffix": {
+                    "type": "string",
+                    "default": "/usr/share/publicsuffix/public_suffix_list.dat",
+                    "description": "Path to public_suffix_list.dat used for DMARC etc"
+                },
+                "umask": {
+                    "$ref": "#/definitions/mode",
+                    "description": "The umask to use after privdrop"
+                },
+                "rlimit": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "nofile": {
+                            "type": "number",
+                            "description": "Max number of open file descriptors"
+                        }
+                    }
+                },
+                "uuid": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "version": {
+                            "type": "number",
+                            "enum": [1, 4],
+                            "default": 1,
+                            "description": "UUID version"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "objectid": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_.]+$",
+            "minLength": 1,
+            "maxLength": 64
+        },
+        "mode": {
+            "type": "string",
+            "pattern": "^[0-7][0-7][0-7][0-7]$",
+            "minLength": 4,
+            "maxLength": 4
+        }
+    }
+}

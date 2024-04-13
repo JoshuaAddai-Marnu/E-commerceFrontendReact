@@ -1,0 +1,336 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "The settings for the submission tracking endpoint",
+  "additionalProperties": false,
+  "required": ["version", "listeners", "secrets", "hosts"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": ["1.8"],
+      "description": "The software version the configuration was created for"
+    },
+    "listeners": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "The IP addresses and ports to listen on. If no IP addresses are specificed it will bind to any (both IPv4 and IPv6)",
+      "items": {
+        "type": "object",
+        "required": [
+          "port"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "port": {
+            "type": "integer",
+            "maximum": 65535,
+            "minimum": 1,
+            "description": "Port number"
+          },
+          "address": {
+            "description": "IP address",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "ipv4",
+                "description": "IPv4 address"
+              },
+              {
+                "type": "string",
+                "format": "ipv6",
+                "description": "IPv6 address"
+              }
+            ]
+          },
+          "pki": {
+            "type": "object",
+            "description": "The X.509 certificate and private key",
+            "additionalProperties": false,
+            "required": [
+              "certificate",
+              "privatekey"
+            ],
+            "properties": {
+              "certificate": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "data"
+                    ],
+                    "properties": {
+                      "data": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The PKCS #8 PEM data"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "path"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The PKCS #8 PEM path"
+                      }
+                    }
+                  }
+                ]
+              },
+              "privatekey": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "data"
+                    ],
+                    "properties": {
+                      "data": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The private key data"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "path"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The private key path"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "proxy": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "description": "A list of IP addresses and subnets to trust as being a reverse proxy.",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "workers": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The amount of child processes that should be started to handle incoming requests."
+    },
+    "secrets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "uniqueItems": true,
+        "required": ["id", "key"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 254,
+            "description": "The ID of the secret that should be used to validate the hash of the tracking payload."
+          },
+          "key": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The key for the secret that should be used to validate the hash of the tracking payload."
+          }
+        } 
+      }
+    },
+    "redis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "host": {
+          "type": "string",
+          "default": "localhost"
+        }
+      }
+    },
+    "hosts": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "The webhook event receiver node(s)",
+      "items": {
+        "type": "object",
+        "required": [
+          "address",
+          "port"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "description": "IP address or hostname",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "ipv4",
+                "description": "IPv4 address"
+              },
+              {
+                "type": "string",
+                "format": "ipv6",
+                "description": "IPv6 address"
+              },
+              {
+                "type": "string",
+                "description": "Hostname"
+              }
+            ]
+          },
+          "port": {
+            "type": "integer",
+            "maximum": 65535,
+            "minimum": 1,
+            "description": "Port number"
+          },
+          "path": {
+            "type": "string",
+            "default": "/",
+            "description": "The URL path"
+          },
+          "tls": {
+            "oneOf": [
+              {
+                "type": "boolean",
+                "default": false,
+                "description": "If TLS should be used for the requests"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "The TLS options",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If TLS should be used for the requests"
+                  },
+                  "verify": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If the server certificate should be verified"
+                  }
+                }
+              }
+            ]
+          },
+          "apikey": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The API key that will be used for the requests (sent in the X-API-Key header)."
+          }
+        }
+      }
+    },
+    "queues": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The queue settings against the backend hosts",
+      "properties": {
+        "retry": {
+          "type": "object",
+          "description": "The retry settings",
+          "required": [
+            "interval",
+            "count"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "interval": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "The interval (in seconds)"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "The retry count"
+            }
+          }
+        },
+        "min_items": {
+            "type": "integer",
+            "description": "Minimum items to send in bulk request",
+            "default": 1,
+            "minimum": 1
+        },
+        "max_items": {
+            "type": "integer",
+            "description": "Maximum items to send in bulk request",
+            "default": 1,
+            "minimum": 1
+        },
+        "max_interval": {
+            "type": "integer",
+            "description": "Maximum time to wait for min_items (in seconds)",
+            "minimum": 0
+        },
+        "timeout": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The timeout settings against the backend hosts",
+          "properties": {
+            "connect": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 30,
+              "description": "The connect timeout (in seconds) against the backend hosts"
+            },
+            "socket": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 900,
+              "description": "The socket timeout (in seconds) against the backend hosts"
+            }
+          }
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "privdrop": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "user": {
+              "type": "string",
+              "description": "Privdrop user"
+            },
+            "group": {
+              "type": "string",
+              "description": "Privdrop group"
+            }
+          }
+        }
+      }
+    }
+  }
+}

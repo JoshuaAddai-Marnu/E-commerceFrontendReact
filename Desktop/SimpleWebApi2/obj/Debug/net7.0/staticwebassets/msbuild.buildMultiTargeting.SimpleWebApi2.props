@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/SimpleWebApi2.props" />
+</Project>

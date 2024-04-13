@@ -1,0 +1,56 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The settings for the embedded DLP (dlpd) engine",
+    "markdownDescription": "The settings for the embedded DLP (`dlpd`) engine",
+    "additionalProperties": false,
+    "required": ["version"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["5.3"],
+            "description": "The software version the configuration was created for"
+        },
+        "rules": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "The DLP rules",
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "type",
+                    "data"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "pattern": "^[A-Z0-9]+$",
+                        "description": "The name"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "regexp",
+                            "filename",
+                            "mimetype",
+                            "md5hash",
+                            "sha1hash",
+                            "sha2hash"
+                        ],
+                        "description": "The type"
+                    },
+                    "data": {
+                        "type": "array",
+                        "description": "The data",
+                        "minItems": 1,
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

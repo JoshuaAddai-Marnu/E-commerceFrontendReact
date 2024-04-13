@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='rendered' buildActiveScheme='true' importAppTypes='true'>
+    <pages>
+        <page name='Introduction'/>
+        <page name='CreatingClass'/>
+        <page name='Class_no_init()'/>
+        <page name='Class_with_init()'/>
+        <page name='Class_Let'/>
+        <page name='CreatingStructDefault_init()'/>
+        <page name='CreatingStructDefaultValues'/>
+        <page name='CreatingStructwith_init()'/>
+        <page name='CreatingStruct_self'/>
+        <page name='Enums_Example1'/>
+        <page name='Enums_Example2'/>
+        <page name='AutomaticReferenceCounting'/>
+    </pages>
+</playground>

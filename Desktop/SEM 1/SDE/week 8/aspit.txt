@@ -1,0 +1,26 @@
+#!/bin/bash
+#  reads a number of positional paramters
+#  stores into an array
+#  moves the 1st element in array to end of array
+#  diaplays updated array
+
+
+ar1=($@)           # picks up all positional parameters assign to array ar1 
+nel=${#ar1[*]}     # assign number of elemnet in array ar1 to variable nel
+((nel = $nel - 1)) # subtract value of nel by 1 and update nel
+fs=${ar1[0]}    # store the 1st element value in array ar1 into varaiable fs 
+ar1=(${ar1[*]:1:$nel} $fs )  # ar1[*] => all elements in array "strings"
+                             #   1 : string number 1
+                             #  $nel : last element or string number
+                             #  v1 ${ar1[*]:1:$nel} => elements of array ar1 except for element 0 as strings
+                             #  v2 $fs string value of 1st element in original array ar1
+                             #  () generate an array
+                             #  include values of v1 and v2
+                             #  ar1= reasign array ar1 with these newly ordered strings
+echo " $nel ${ar1[*]} "      #  print out value of varaible nel all elements in ar1
+i=0
+while test $i -le  $nel
+do
+echo "${ar1[i]}"
+((i = $i + 1))
+done

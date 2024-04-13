@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$ref": "file:../submission/1.8-stable/submission.schema.json"
+    },
+    {
+      "$ref": "file:../submission/1.7-stable/submission.schema.json"
+    },
+    {
+      "$ref": "file:../submission/1.6-stable/submission.schema.json"
+    },
+    {
+      "$ref": "file:../submission/1.5-stable/submission.schema.json"
+    },
+    {
+      "$ref": "file:../submission/1.4-stable/submission.schema.json"
+    },
+    {
+      "$ref": "file:../submission/1.3-stable/submission.schema.json"
+    },
+    {
+      "$ref": "file:../submission/1.2-stable/submission.schema.json"
+    },
+    {
+      "$ref": "file:../submission/1.1-stable/submission.schema.json"
+    },
+    {
+      "$ref": "file:../submission/1.0-stable/submission.schema.json"
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The hsl-lint configuration file",
+    "additionalProperties": false,
+    "required": [
+        "version",
+        "data"
+    ],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["6.1"],
+            "description": "The software version the configuration was created for"
+        },
+        "scripting": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ffi": {
+                    "type": "boolean",
+                    "description": "Allow use of the FFI functions",
+                    "default": false
+                },
+                "rootpath": {
+                    "type": "string",
+                    "description": "File root path for file access"
+                }
+            }
+        },
+        "phase": {
+            "type": "string",
+            "description": "The script phase",
+            "enum": [
+                "connect",
+                "proxy",
+                "helo",
+                "auth",
+                "mailfrom",
+                "rcptto",
+                "eod",
+                "disconnect",
+                "predelivery",
+                "postdelivery"
+            ]
+        },
+        "data": {
+            "type": "string",
+            "description": "The script data"
+        },
+        "plugins": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "A list of following plugins",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/definitions/objectid",
+                        "description": "Plugin ID"
+                    },
+                    "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The plugin (.so) path. The default path is /opt/halon/plugins/"
+                    }
+                }
+            }
+        },
+        "files": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "The virtual files; script, text or CSV",
+            "items": {
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "required": [
+                            "id",
+                            "data"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 64,
+                                "description": "The file ID"
+                            },
+                            "data": {
+                                "type": "string",
+                                "description": "The script"
+                            },
+                            "binary": {
+                                "type": "boolean",
+                                "description": "True if the data property contains base64 encoded (binary) data"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "id",
+                            "path"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 64,
+                                "description": "The file ID"
+                            },
+                            "path": {
+                                "type": "string",
+                                "description": "The script file path relative to scripting.rootpath"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "objectid": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_.]+$",
+            "minLength": 1,
+            "maxLength": 64
+        }
+    }
+}

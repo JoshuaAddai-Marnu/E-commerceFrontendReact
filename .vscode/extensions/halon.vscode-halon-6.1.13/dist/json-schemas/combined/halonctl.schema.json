@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$ref": "file:../mta/6.2-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/6.1-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/6.0-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.9-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.8-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.7-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.6-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.5-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.4-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.3-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.15-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.14-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.13-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.12-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.11-stable/halonctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.10-stable/halonctl.schema.json"
+    }
+  ]
+}

@@ -1,0 +1,441 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "The settings for the web interface",
+  "additionalProperties": false,
+  "required": ["version", "listeners", "hosts"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": ["1.12"],
+      "description": "The software version the configuration was created for"
+    },
+    "instance": {
+      "type": "string",
+      "description": "The name that will be shown in the document title"
+    },
+    "accounting": {
+      "type": "boolean",
+      "default": false,
+      "description": "If accounting logs should be generated"
+    },
+    "listeners": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "The IP addresses and ports to listen on. If no IP addresses are specificed it will bind to any (both IPv4 and IPv6)",
+      "items": {
+        "type": "object",
+        "required": [
+          "port"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "port": {
+            "type": "integer",
+            "maximum": 65535,
+            "minimum": 1,
+            "description": "Port number"
+          },
+          "address": {
+            "description": "IP address",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "ipv4",
+                "description": "IPv4 address"
+              },
+              {
+                "type": "string",
+                "format": "ipv6",
+                "description": "IPv6 address"
+              }
+            ]
+          },
+          "pki": {
+            "type": "object",
+            "description": "The X.509 certificate and private key",
+            "additionalProperties": false,
+            "required": [
+              "certificate",
+              "privatekey"
+            ],
+            "properties": {
+              "certificate": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "data"
+                    ],
+                    "properties": {
+                      "data": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The PKCS #8 PEM data"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "path"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The PKCS #8 PEM path"
+                      }
+                    }
+                  }
+                ]
+              },
+              "privatekey": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "data"
+                    ],
+                    "properties": {
+                      "data": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The private key data"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "path"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The private key path"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "proxy": {
+            "type": "object",
+            "required": ["trust"],
+            "additionalProperties": false,
+            "properties": {
+              "trust": {
+                "oneOf": [
+                  {
+                    "type": "boolean",
+                    "description": "Trust all IP-addresses and subnets as being reverse proxies",
+                    "default": false
+                  },
+                  {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "description": "A list of IP addresses and subnets to trust as being reverse proxies",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "default": []
+                  }
+                ]
+              },
+              "header": {
+                "type": "string",
+                "minLength": 1,
+                "description": "This setting allows for automatic login when behind a reverse proxy. If configured, this header should be set by the reverse proxy and contain the username for the session"
+              }
+            }
+          }
+        }
+      }
+    },
+    "hosts": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "The Halon MTA node(s)",
+      "items": {
+        "type": "object",
+        "required": [
+          "address",
+          "port"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "processes": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "description": "The processes that are running on the host",
+            "items": {
+              "enum": ["smtpd", "rated"]
+            }
+          },
+          "address": {
+            "description": "IP address or hostname",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "ipv4",
+                "description": "IPv4 address"
+              },
+              {
+                "type": "string",
+                "format": "ipv6",
+                "description": "IPv6 address"
+              },
+              {
+                "type": "string",
+                "description": "Hostname"
+              }
+            ]
+          },
+          "expand": {
+            "type": "boolean",
+            "default": false,
+            "description": "Add all IP addresses for the hostname as unique hosts"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The display name. The default is the address. Cannot be combined with the expand option"
+          },
+          "port": {
+            "type": "integer",
+            "maximum": 65535,
+            "minimum": 1,
+            "description": "Port number"
+          },
+          "tls": {
+            "oneOf": [
+              {
+                "type": "boolean",
+                "default": false,
+                "description": "If TLS should be used for the requests"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "The TLS options",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If TLS should be used for the requests"
+                  },
+                  "verify": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If the server certificate should be verified"
+                  }
+                }
+              }
+            ]
+          },
+          "secret": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The secret that will be sent in the requests using the X-API-Key header"
+          },
+          "timeout": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 5,
+            "description": "The timeout against the node (in seconds)"
+          }
+        }
+      }
+    },
+    "database": {
+      "type": "object",
+      "description": "Enable database storage for per-user settings (knex)",
+      "required": ["client", "connection"],
+      "properties": {
+        "client": {
+          "type": "string",
+          "enum": ["sqlite3", "pg", "mysql"],
+          "description": "The database driver"
+        },
+        "connection": {
+          "oneOf": [
+            {
+              "description": "The database connection settings",
+              "type": "string"
+            },
+            {
+              "description": "The database connection settings",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    "elasticsearch": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "string",
+          "description": "The index pattern for Elasticsearch"
+        },
+        "nodes": {
+          "type": "array",
+          "description": "A list of Elasticsearch nodes",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "agent": {},
+              "ssl": {},
+              "headers": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "auth": {
+          "type": "object",
+          "description": "Authentication for the Elasticsearch nodes",
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "username",
+            "password"
+          ],
+          "additionalProperties": false
+        },
+        "tls": {
+          "type": "object",
+          "description": "TLS settings",
+          "properties": {
+            "rejectUnauthorized": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "required": [
+        "index",
+        "nodes"
+      ],
+      "additionalProperties": false
+    },
+    "reresolve": {
+      "type": "number",
+      "minimum": 1,
+      "description": "Automatically re-resolve the hostnames of the hosts every x seconds (The default is to never re-resolve the hostnames of the hosts automatically)"
+    },
+    "users": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "The users",
+      "items": {
+        "type": "object",
+        "required": [
+          "username"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "The username"
+          },
+          "password": {
+            "type": "string",
+            "description": "The password"
+          },
+          "features": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "preview": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              },
+              "configuration": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "solution": {
+      "type": "string",
+      "enum": ["engage", "protect"],
+      "description": "The solution"
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "privdrop": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "user": {
+              "type": "string",
+              "description": "Privdrop user"
+            },
+            "group": {
+              "type": "string",
+              "description": "Privdrop group"
+            }
+          }
+        },
+        "session": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "default": "/tmp/halon/web",
+              "description": "The directory where the session files will be stored"
+            }
+          }
+        }
+      }
+    }
+  }
+}

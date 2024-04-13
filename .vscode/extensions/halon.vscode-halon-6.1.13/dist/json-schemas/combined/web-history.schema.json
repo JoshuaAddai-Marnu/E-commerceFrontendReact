@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$ref": "file:../web/1.13-stable/web-history.schema.json"
+    },
+    {
+      "$ref": "file:../web/1.12-stable/web-history.schema.json"
+    }
+  ]
+}

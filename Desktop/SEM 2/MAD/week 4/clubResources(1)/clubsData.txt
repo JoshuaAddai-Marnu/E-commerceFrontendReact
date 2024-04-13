@@ -1,0 +1,79 @@
+[
+    {
+          C
+        },
+        
+        {
+            "club_name": "Chelsea",
+            "logo": "chelsea",
+            "clubLocation": "Stamford Bridge, London. SW6 1HS",
+            "stadium": "stamford",
+            "history": "Chelsea Football Club is an English professional football club based in Fulham, West London. Founded in 1905, they play their home games at Stamford Bridge.[5] The club competes in the Premier League, the top division of English football. They won their first major honour, the League championship, in 1955. The club won the FA Cup for the first time in 1970, their first European honour, the Cup Winners' Cup, in 1971, and became the third English club to win the Club World Cup in 2022."
+        },
+
+
+
+      
+    
+]
+
+ //
+ //  EPLClub.swift
+ //  EPL_Clubs
+ //
+ //  Created by girish lukka on 26/07/2023.
+ //
+
+ import Foundation
+ struct EPLClub: Identifiable{
+     let id = UUID()  // Use UUID directly in the struct
+     let clubName: String
+     let logo: String
+     let clubLocation: String
+     let stadium: String
+     let history: String
+ }
+
+
+ //
+//  ClubLocationViewModel.swift
+//  EPL_Clubs
+//
+//  Created by girish lukka on 26/07/2023.
+//
+import Foundation
+import SwiftUI
+import CoreLocation
+import MapKit
+
+class ClubLocationViewModel: ObservableObject {
+    @Published var selectedClub: EPLClub?
+    @Published var coordinates: CLLocationCoordinate2D?
+    @Published var region: MKCoordinateRegion = MKCoordinateRegion()
+
+
+    func getAllEPLClubs() -> [EPLClub] {
+        return [
+            EPLClub(clubName: "Liverpool", logo: "liverpool", clubLocation: "Anfield Road, Liverpool. L4 0TH", stadium: "anfield", history: "Liverpool Football Club is a professional football club based in Liverpool"),
+            EPLClub(clubName: "Chelsea", logo: "chelsea", clubLocation: "Stamford Bridge, London. SW6 1HS", stadium: "stamford", history: "Chelsea Football Club is an English professional football club based in Fulham, West London"),
+            EPLClub(clubName: "Aston Villa", logo: "astonvilla", clubLocation: "Villa Park, Trinity Road, Birmingham. B6 6HE", stadium: "villa", history: "Aston Villa Football Club, commonly referred to as Villa, is a professional football club based in Aston, Birmingham, England."),
+            // Add other EPL clubs with their information
+            // ...
+        ]
+    }
+    func getCoordinatesForClub(_ club: EPLClub) async throws{
+        if let selectedClub = selectedClub {
+            let geocoder = CLGeocoder()
+            if let placemarks = try? await geocoder.geocodeAddressString(selectedClub.clubLocation),
+               let location = placemarks.first?.location?.coordinate {
+                DispatchQueue.main.async {
+                    self.coordinates = location
+                    self.region = MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                }
+            } else {
+                // Handle error here if geocoding fails
+                print("Error: Unable to find the coordinates for the club.")
+            }
+        }
+    }
+}

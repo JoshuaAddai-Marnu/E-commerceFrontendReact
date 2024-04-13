@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$ref": "file:../mta/6.2-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/6.1-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/6.0-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.9-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.8-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.15-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.14-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.13-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.12-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.11-stable/dlpctl.schema.json"
+    },
+    {
+      "$ref": "file:../mta/5.10-stable/dlpctl.schema.json"
+    }
+  ]
+}

@@ -1,0 +1,1676 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The server (smtpd) running configuration",
+    "markdownDescription": "The server (`smtpd`) [running configuration](https://docs.halon.io/manual/archive/master/config_smtpd.html)",
+    "additionalProperties": false,
+    "required": ["version"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["5.7"],
+            "description": "The software version the configuration was created for"
+        },
+        "servers": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "The virtual servers (listeners)",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "transport"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/definitions/objectid",
+                        "description": "Server ID"
+                    },
+                    "phases": {
+                        "type": "object",
+                        "description": "Settings and script hooks for the SMTP phases",
+                        "additionalProperties": false,
+                        "properties": {
+                            "connect": {
+                                "type": "object",
+                                "description": "The connect phase",
+                                "markdownDescription": "The [connect](https://docs.halon.io/hsl/connect.html) phase",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "hook": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "Connect script ID to run"
+                                    },
+                                    "remoteptr": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Perform a forward-confirmed reverse DNS (FCrDNS) lookup"
+                                    }
+                                }
+                            },
+                            "proxy": {
+                                "type": "object",
+                                "description": "The proxy script hook, that runs before any other script for the specified commands",
+                                "markdownDescription": "The [proxy](https://docs.halon.io/hsl/proxy.html) script hook, that runs before any other script for the specified commands",
+                                "additionalProperties": false,
+                                "required": [
+                                    "hook"
+                                ],
+                                "properties": {
+                                    "hook": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "Proxy script ID to run"
+                                    },
+                                    "patterns": {
+                                        "type": "array",
+                                        "uniqueItems": true,
+                                        "description": "The command pattern for which to run the proxy script",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "helo": {
+                                "type": "object",
+                                "description": "The HELO/EHLO phase",
+                                "markdownDescription": "The [HELO/EHLO](https://docs.halon.io/hsl/helo.html) phase",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "hook": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "HELO script ID to run",
+                                        "markdownDescription": "`HELO` script ID to run"
+                                    },
+                                    "required": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "If the client is required to send the HELO command",
+                                        "markdownDescription": "If the client is required to send the `HELO` command"
+                                    }
+                                }
+                            },
+                            "auth": {
+                                "type": "object",
+                                "description": "The AUTH phase",
+                                "markdownDescription": "The [AUTH](https://docs.halon.io/hsl/auth.html) phase",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "hook": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "AUTH script ID to run",
+                                        "markdownDescription": "`AUTH` script ID to run"
+                                    },
+                                    "mechanisms": {
+                                        "type": "array",
+                                        "uniqueItems": true,
+                                        "description": "The SASL mechanisms to announce, defaults to the built-in types [\"LOGIN\", \"PLAIN\"] if omitted",
+                                        "markdownDescription": "The SASL mechanisms to announce, defaults to the built-in types `[\"LOGIN\", \"PLAIN\"]` if omitted",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "tlsrequired": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Require TLS for authentication"
+                                    }
+                                }
+                            },
+                            "mailfrom": {
+                                "type": "object",
+                                "description": "The MAIL FROM phase",
+                                "markdownDescription": "The [MAIL FROM](https://docs.halon.io/hsl/mailfrom.html) phase",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "hook": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "MAIL FROM script ID to run",
+                                        "markdownDescription": "`MAIL FROM` script ID to run"
+                                    },
+                                    "maxmessages": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "description": "The max number of messages per connection"
+                                    },
+                                    "unqualified": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Allow unqualified MAIL FROM domain"
+                                    }
+                                }
+                            },
+                            "rcptto": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "description": "The RCPT TO phase",
+                                        "markdownDescription": "The [RCPT TO](https://docs.halon.io/hsl/rcptto.html) phase",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "hook": {
+                                                "$ref": "#/definitions/objectid",
+                                                "description": "RCPT TO script ID to run",
+                                                "markdownDescription": "`RCPT TO` script ID to run"
+                                            },
+                                            "maxrecipients": {
+                                                "type": "integer",
+                                                "default": 1000,
+                                                "description": "The max number of recipients per message"
+                                            },
+                                            "unqualified": {
+                                                "type": "boolean",
+                                                "default": false,
+                                                "description": "Allow unqualified RCPT TO domain"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "description": "The RCPT TO phase",
+                                        "markdownDescription": "The [RCPT TO](https://docs.halon.io/hsl/rcptto.html) phase",
+                                        "required": [
+                                            "hook"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "hook": {
+                                                "type": "object",
+                                                "description": "The RCPT TO phase",
+                                                "markdownDescription": "The [RCPT TO](https://docs.halon.io/hsl/rcptto.html) phase",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "id": {
+                                                        "$ref": "#/definitions/objectid",
+                                                        "description": "RCPT TO script ID to run",
+                                                        "markdownDescription": "`RCPT TO` script ID to run"
+                                                    },
+                                                    "maxrecipients": {
+                                                        "type": "integer",
+                                                        "default": 1000,
+                                                        "description": "The max number of recipients per message"
+                                                    },
+                                                    "unqualified": {
+                                                        "type": "boolean",
+                                                        "default": false,
+                                                        "description": "Allow unqualified RCPT TO domain"
+                                                    },
+                                                    "recipientdomains": {
+                                                        "type": "object",
+                                                        "description": "The RCPT TO phase",
+                                                        "markdownDescription": "The [RCPT TO](https://docs.halon.io/hsl/rcptto.html) phase",
+                                                        "additionalProperties": true
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "data": {
+                                "type": "object",
+                                "description": "The DATA command phase",
+                                "markdownDescription": "The `DATA` command phase",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "maxsize": {
+                                        "type": "integer",
+                                        "default": 10485760,
+                                        "description": "The max message size (in bytes)"
+                                    },
+                                    "maxhops": {
+                                        "type": "integer",
+                                        "default": 50,
+                                        "description": "The max number of Received headers allowed (loop detection)"
+                                    },
+                                    "receivedheader": {
+                                        "type": "boolean",
+                                        "default": true,
+                                        "description": "Add a Received header"
+                                    }
+                                }
+                            },
+                            "eod": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "description": "The end-of-DATA phase",
+                                        "markdownDescription": "The [end-of-DATA](https://docs.halon.io/hsl/eodrcpt.html) phase",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "hook": {
+                                                "$ref": "#/definitions/objectid",
+                                                "description": "The EOD script ID",
+                                                "markdownDescription": "End-of-`DATA` script ID to run"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "description": "The end-of-DATA phase",
+                                        "markdownDescription": "The [end-of-DATA](https://docs.halon.io/hsl/eodrcpt.html) phase",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "rcpt": {
+                                                "oneOf": [
+                                                    {
+                                                        "type": "object",
+                                                        "description": "The end-of-DATA phase",
+                                                        "markdownDescription": "The [end-of-DATA](https://docs.halon.io/hsl/eodrcpt.html) phase",
+                                                        "additionalProperties": false,
+                                                        "properties": {
+                                                            "hook": {
+                                                                "$ref": "#/definitions/objectid",
+                                                                "description": "End-of-DATA script ID to run",
+                                                                "markdownDescription": "End-of-`DATA` script ID to run"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "object",
+                                                        "description": "The end-of-DATA phase",
+                                                        "markdownDescription": "The [end-of-DATA](https://docs.halon.io/hsl/eodrcpt.html) phase",
+                                                        "required": [
+                                                            "hook"
+                                                        ],
+                                                        "additionalProperties": false,
+                                                        "properties": {
+                                                            "hook": {
+                                                                "type": "object",
+                                                                "description": "The end-of-DATA phase",
+                                                                "markdownDescription": "The [end-of-DATA](https://docs.halon.io/hsl/eodrcpt.html) phase",
+                                                                "additionalProperties": false,
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "$ref": "#/definitions/objectid",
+                                                                        "description": "End-of-DATA script ID to run",
+                                                                        "markdownDescription": "End-of-`DATA` script ID to run"
+                                                                    },
+                                                                    "recipientdomains": {
+                                                                        "type": "object",
+                                                                        "description": "The end-of-DATA phase",
+                                                                        "markdownDescription": "The [end-of-DATA](https://docs.halon.io/hsl/eodrcpt.html) phase",
+                                                                        "additionalProperties": true
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "disconnect": {
+                                "type": "object",
+                                "description": "The disconnect phase",
+                                "markdownDescription": "The [disconnect](https://docs.halon.io/hsl/disconnect.html) phase",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "hook": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "Disconnect script ID to run"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "transport": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/definitions/objectid",
+                                "description": "Transport label ID"
+                            },
+                            {
+                                "type": "object",
+                                "description": "Transport label IDs",
+                                "required": [
+                                    "id"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "Default transport label ID"
+                                    },
+                                    "recipientdomains": {
+                                        "type": "object",
+                                        "description": "Transport label per recipient domain",
+                                        "additionalProperties": true
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "hostname": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "HELO/EHLO hostname"
+                    },
+                    "extensions": {
+                        "type": "object",
+                        "description": "SMTP extensions",
+                        "additionalProperties": false,
+                        "properties": {
+                            "xclient": {
+                                "description": "Allow use of the XCLIENT command from IP(s)",
+                                "default": false,
+                                "anyOf": [
+                                    {
+                                        "type": "array",
+                                        "uniqueItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv4",
+                                                    "description": "The IPv4 address"
+                                                },
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv6",
+                                                    "description": "The IPv6 address"
+                                                }
+                                            ]
+                                        },
+                                        "description": "A list of IP addresses"
+                                    },
+                                    {
+                                        "type": "boolean",
+                                        "description": "true is any IP address and false is disabled",
+                                        "markdownDescription": "`true` is any IP address and `false` is disabled"
+                                    }
+                                ]
+                            },
+                            "smtputf8": {
+                                "type": "boolean",
+                                "default": false,
+                                "description": "Enable support for the SMTPUTF8 extension"
+                            },
+                            "chunking": {
+                                "type": "boolean",
+                                "default": true,
+                                "description": "Enable support for the CHUNKING extension"
+                            }
+                        }
+                    },
+                    "tls": {
+                        "type": "object",
+                        "description": "TLS related settings",
+                        "required": [
+                            "certs"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "certs": {
+                                "description": "The certificates to present",
+                                "type": "object",
+                                "required": [
+                                    "cert"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "cert": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The key ID"
+                                    },
+                                    "sni": {
+                                        "type": "array",
+                                        "uniqueItems": true,
+                                        "description": "The SNI settings",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "cert"
+                                            ],
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "cert": {
+                                                    "$ref": "#/definitions/objectid",
+                                                    "description": "The key ID"
+                                                },
+                                                "subjects": {
+                                                    "type": "array",
+                                                    "uniqueItems": true,
+                                                    "items": {
+                                                        "type": "string",
+                                                        "description": "Subject"
+                                                    },
+                                                    "description": "A list of subjects"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "protocols": {
+                                "type": "string",
+                                "description": "Which TLS protocols to support",
+                                "default": "!SSLv2,!SSLv3"
+                            },
+                            "ciphers": {
+                                "type": "string",
+                                "description": "Which TLS ciphers to support",
+                                "default": "aNULL:-aNULL:HIGH:MEDIUM:+RC4:@STRENGTH"
+                            },
+                            "clientcert": {
+                                "description": "Request client certificate from IP(s)",
+                                "default": false,
+                                "anyOf": [
+                                    {
+                                        "type": "array",
+                                        "uniqueItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv4",
+                                                    "description": "The IPv4 address"
+                                                },
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv6",
+                                                    "description": "The IPv6 address"
+                                                }
+                                            ]
+                                        },
+                                        "description": "A list of IP addresses"
+                                    },
+                                    {
+                                        "type": "boolean",
+                                        "description": "true is any IP address and false is disabled",
+                                        "markdownDescription": "`true` is any IP address and `false` is disabled"
+                                    }
+                                ]
+                            },
+                            "implicit": {
+                                "description": "Enable implicit TLS",
+                                "default": false,
+                                "anyOf": [
+                                    {
+                                        "type": "array",
+                                        "uniqueItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string",
+                                                    "description": "Listen ID"
+                                                }
+                                            ]
+                                        },
+                                        "description": "A list of ID of listeners"
+                                    },
+                                    {
+                                        "type": "boolean",
+                                        "description": "Use true to enable for all listeners",
+                                        "markdownDescription": "Use `true` to enable for all listeners"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "concurrency": {
+                        "type": "object",
+                        "description": "The concurrency settings",
+                        "additionalProperties": false,
+                        "properties": {
+                            "total": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "default": 1000,
+                                "description": "The max amount of concurrent connections"
+                            },
+                            "ip": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "The max amount of concurrent connections per IP"
+                            }
+                        }
+                    },
+                    "timeout": {
+                        "type": "object",
+                        "description": "The timeout settings",
+                        "additionalProperties": false,
+                        "properties": {
+                            "idle": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "default": 300,
+                                "description": "The max idle time"
+                            }
+                        }
+                    },
+                    "logging": {
+                        "type": "object",
+                        "description": "The logging related settings",
+                        "additionalProperties": false,
+                        "properties": {
+                            "protocol": {
+                                "type": "boolean",
+                                "default": false,
+                                "description": "Enable protocol logging"
+                            },
+                            "hook": {
+                                "type": "boolean",
+                                "default": true,
+                                "description": "Enable hook pre- and postamble logging"
+                            }
+                        }
+                    },
+                    "productname": {
+                        "type": "string",
+                        "default": "Halon",
+                        "description": "The software name"
+                    }
+                }
+            }
+        },
+        "queues": {
+            "type": "object",
+            "description": "Queue settings",
+            "additionalProperties": false,
+            "properties": {
+                "concurrency": {
+                    "type": "object",
+                    "description": "Concurrency settings",
+                    "additionalProperties": false,
+                    "properties": {
+                        "total": {
+                            "type": "integer",
+                            "description": "Max concurrent connections",
+                            "default": 10000,
+                            "minimum": 1
+                        }
+                    }
+                },
+                "pooling": {
+                    "type": "object",
+                    "description": "Pooling settings",
+                    "additionalProperties": false,
+                    "properties": {
+                        "size": {
+                            "type": "integer",
+                            "description": "Max idle connections in the connection pool",
+                            "default": 1000,
+                            "minimum": 0
+                        }
+                    }
+                }
+            }
+        },
+        "resolver": {
+            "type": "object",
+            "description": "DNS resolver settings",
+            "additionalProperties": false,
+            "properties": {
+                "cache": {
+                    "type": "object",
+                    "description": "Enable the DNS cache",
+                    "required": [
+                        "size"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "ttl": {
+                            "type": "object",
+                            "description": "Normalize TTL values in the DNS cache",
+                            "additionalProperties": false,
+                            "properties": {
+                                "min": {
+                                    "type": "integer",
+                                    "description": "Minimum TTL",
+                                    "minimum": 1
+                                },
+                                "max": {
+                                    "type": "integer",
+                                    "description": "Maximum TTL",
+                                    "minimum": 1
+                                }
+                            }
+                        },
+                        "size": {
+                            "type": "integer",
+                            "description": "Max size (entries) the DNS cache",
+                            "minimum": 1
+                        }
+                    }
+                },
+                "concurrency": {
+                    "type": "integer",
+                    "description": "Max concurrent DNS queries",
+                    "default": 100,
+                    "minimum": 1
+                }
+            }
+        },
+        "plugins": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "A list of following plugins",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/definitions/objectid",
+                        "description": "Plugin ID"
+                    },
+                    "config": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "description": "The plugin config"
+                    }
+                }
+            }
+        },
+        "scripting": {
+            "type": "object",
+            "description": "The scripting related settings",
+            "additionalProperties": false,
+            "properties": {
+                "hooks": {
+                    "type": "object",
+                    "description": "The phase script hooks",
+                    "additionalProperties": false,
+                    "properties": {
+                        "connect": {
+                            "type": "array",
+                            "description": "The connect phase scripts",
+                            "markdownDescription": "The [connect](https://docs.halon.io/hsl/connect.html) phase scripts",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The Connect script ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    }
+                                }
+                            }
+                        },
+                        "proxy": {
+                            "type": "array",
+                            "description": "The proxy scripts",
+                            "markdownDescription": "The [proxy](https://docs.halon.io/hsl/proxy.html) scripts",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The proxy script ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    }
+                                }
+                            }
+                        },
+                        "helo": {
+                            "type": "array",
+                            "description": "The HELO/EHLO phase scripts",
+                            "markdownDescription": "The [HELO/EHLO](https://docs.halon.io/hsl/helo.html) phase scripts",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The HELO script ID",
+                                        "markdownDescription": "The `HELO` script ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    }
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "array",
+                            "description": "The AUTH phase scripts",
+                            "markdownDescription": "The [AUTH](https://docs.halon.io/hsl/auth.html) phase scripts",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The AUTH script ID",
+                                        "markdownDescription": "The `AUTH` script ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    }
+                                }
+                            }
+                        },
+                        "mailfrom": {
+                            "type": "array",
+                            "description": "The MAIL FROM phase scripts",
+                            "markdownDescription": "The [MAIL FROM](https://docs.halon.io/hsl/mailfrom.html) phase scripts",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The MAIL FROM script ID",
+                                        "markdownDescriptions": "The `MAIL FROM` script ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    }
+                                }
+                            }
+                        },
+                        "rcptto": {
+                            "type": "array",
+                            "description": "The RCPT TO phase scripts",
+                            "markdownDescription": "The [RCPT TO](https://docs.halon.io/hsl/rcptto.html) phase scripts",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The RCPT TO script ID",
+                                        "markdownDescription": "The `RCPT TO` script ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    }
+                                }
+                            }
+                        },
+                        "eod": {
+                            "type": "array",
+                            "description": "The end-of-DATA phase scripts",
+                            "markdownDescription": "The [end-of-DATA](https://docs.halon.io/hsl/eodonce.html) phase scripts",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The end-of-DATA script ID",
+                                        "markdownDescription": "The end-of-`DATA` script ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    }
+                                }
+                            }
+                        },
+                        "eodrcpt": {
+                            "type": "array",
+                            "description": "The end-of-DATA phase scripts",
+                            "markdownDescription": "The [end-of-DATA](https://docs.halon.io/hsl/eodrcpt.html) phase scripts",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The end-of-DATA script ID",
+                                        "markdownDescription": "The end-of-`DATA` script ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    }
+                                }
+                            }
+                        },
+                        "disconnect": {
+                            "type": "array",
+                            "description": "The disconnect phase scripts",
+                            "markdownDescription": "The [disconnect](https://docs.halon.io/hsl/disconnect.html) phase scripts",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "$ref": "#/definitions/objectid",
+                                        "description": "The Disconnect script ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    }
+                                }
+                            }
+                        },
+                        "predelivery": {
+                            "description": "The pre-delivery script",
+                            "markdownDescription": "The [pre-delivery](https://docs.halon.io/hsl/predelivery.html) script",
+                            "type": "string"
+                        },
+                        "postdelivery": {
+                            "description": "The post-delivery script",
+                            "markdownDescription": "The [post-delivery](https://docs.halon.io/hsl/postdelivery.html) script",
+                            "type": "string"
+                        }
+                    }
+                },
+                "files": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "description": "The virtual files; script, text or CSV",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "data"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 64,
+                                        "description": "The file ID"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "The script"
+                                    },
+                                    "binary": {
+                                        "type": "boolean",
+                                        "description": "True if the data property contains base64 encoded (binary) data"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "path"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 64,
+                                        "description": "The file ID"
+                                    },
+                                    "path": {
+                                        "type": "string",
+                                        "description": "The script file path relative to scripting.rootpath"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "postmaster": {
+            "type": "object",
+            "description": "Postmaster contact information",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "default": "Postmaster",
+                    "description": "The name"
+                },
+                "address": {
+                    "type": "string",
+                    "format": "email",
+                    "minLength": 1,
+                    "default": "postmaster@example.com",
+                    "description": "The mail address"
+                }
+            }
+        },
+        "transportgroups": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "The transport group profiles",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/definitions/objectid",
+                        "description": "The transport ID"
+                    },
+                    "connection": {
+                        "type": "object",
+                        "description": "The connection settings",
+                        "additionalProperties": false,
+                        "properties": {
+                            "server": {
+                                "anyOf": [
+                                    {
+                                        "type": "string",
+                                        "format": "ipv4",
+                                        "description": "The IPv4 address"
+                                    },
+                                    {
+                                        "type": "string",
+                                        "format": "ipv6",
+                                        "description": "The IPv6 address"
+                                    },
+                                    {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "description": "The hostname"
+                                    },
+                                    {
+                                        "type": "object",
+                                        "description": "A next hop object",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "host": {
+                                                "type": "string",
+                                                "description": "The destination host"
+                                            },
+                                            "mx": {
+                                                "type": "boolean",
+                                                "default": false,
+                                                "description": "Do MX resolving"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "description": "The destination host, otherwise MX lookup will be used"
+                            },
+                            "port": {
+                                "type": "integer",
+                                "maximum": 65535,
+                                "minimum": 1,
+                                "default": 25,
+                                "description": "The port number"
+                            },
+                            "proxyprotocol": {
+                                "type": "object",
+                                "description": "Connect to PROXY server",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "server": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string",
+                                                "format": "ipv4",
+                                                "description": "The IPv4 address"
+                                            },
+                                            {
+                                                "type": "string",
+                                                "format": "ipv6",
+                                                "description": "The IPv6 address"
+                                            }
+                                        ]
+                                    },
+                                    "port": {
+                                        "type": "integer",
+                                        "maximum": 65535,
+                                        "minimum": 1,
+                                        "default": 25,
+                                        "description": "The port number"
+                                    }
+                                }
+                            },
+                            "sourceip": {
+                                "type": "object",
+                                "description": "The source IP settings",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "ipv4": {
+                                        "default": true,
+                                        "anyOf": [
+                                            {
+                                                "type": "boolean",
+                                                "default": true,
+                                                "description": "Bind any IPv4 address"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "uniqueItems": true,
+                                                "minItems": 1,
+                                                "description": "List of IPv4 addresses",
+                                                "items": {
+                                                    "$ref": "#/definitions/objectid",
+                                                    "description": "The IPv4 address ID"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "ipv6": {
+                                        "default": true,
+                                        "anyOf": [
+                                            {
+                                                "type": "boolean",
+                                                "default": true,
+                                                "description": "Bind any IPv6 address"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "uniqueItems": true,
+                                                "minItems": 1,
+                                                "description": "List of IPv6 addresses",
+                                                "items": {
+                                                    "$ref": "#/definitions/objectid",
+                                                    "description": "The IPv6 address ID"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "random": {
+                                        "type": "boolean",
+                                        "default": true,
+                                        "description": "Use a random source IP"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "session": {
+                        "type": "object",
+                        "description": "The session settings",
+                        "additionalProperties": false,
+                        "properties": {
+                            "protocol": {
+                                "type": "string",
+                                "enum": [
+                                    "smtp",
+                                    "lmtp"
+                                ],
+                                "default": "smtp",
+                                "description": "The protocol"
+                            },
+                            "hostname": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "The hostname"
+                            },
+                            "extensions": {
+                                "type": "object",
+                                "description": "SMTP extensions",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "chunking": {
+                                        "type": "boolean",
+                                        "default": true,
+                                        "description": "Enable support for the CHUNKING extension"
+                                    }
+                                }
+                            },
+                            "tls": {
+                                "type": "object",
+                                "description": "The TLS settings",
+                                "required": [
+                                    "mode"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                            "optional",
+                                            "optional_verify",
+                                            "require",
+                                            "require_verify",
+                                            "dane",
+                                            "dane_require"
+                                        ],
+                                        "description": "The TLS mode"
+                                    }
+                                }
+                            },
+                            "authentication": {
+                                "type": "object",
+                                "description": "The authentication settings",
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "description": "The username"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "description": "The password"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "retry": {
+                        "type": "object",
+                        "description": "The retry settings",
+                        "required": [
+                            "intervals",
+                            "count"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "intervals": {
+                                "type": "array",
+                                "uniqueItems": false,
+                                "minItems": 1,
+                                "description": "The retry intervals",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "interval"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "interval": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "description": "The interval (in seconds)"
+                                        },
+                                        "notify": {
+                                            "type": "boolean",
+                                            "default": false,
+                                            "description": "If a delayed notification should be sent"
+                                        }
+                                    }
+                                }
+                            },
+                            "count": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "description": "The retry count"
+                            }
+                        }
+                    },
+                    "dsn": {
+                        "type": "object",
+                        "description": "The DSN settings",
+                        "required": [
+                            "transport"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "transport": {
+                                "$ref": "#/definitions/objectid",
+                                "description": "The transport ID"
+                            }
+                        }
+                    },
+                    "transports": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "description": "The transport profiles",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "id"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "id": {
+                                    "$ref": "#/definitions/objectid",
+                                    "description": "The transport ID"
+                                },
+                                "connection": {
+                                    "type": "object",
+                                    "description": "The connection settings",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "server": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv4",
+                                                    "description": "The IPv4 address"
+                                                },
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv6",
+                                                    "description": "The IPv6 address"
+                                                },
+                                                {
+                                                    "type": "string",
+                                                    "minLength": 1,
+                                                    "description": "The hostname"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "description": "A next hop object",
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "host": {
+                                                            "type": "string",
+                                                            "description": "The destination host"
+                                                        },
+                                                        "mx": {
+                                                            "type": "boolean",
+                                                            "default": false,
+                                                            "description": "Do MX resolving"
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "description": "The destination host, otherwise MX lookup will be used"
+                                        },
+                                        "port": {
+                                            "type": "integer",
+                                            "maximum": 65535,
+                                            "minimum": 1,
+                                            "default": 25,
+                                            "description": "The port number"
+                                        },
+                                        "proxyprotocol": {
+                                            "type": "object",
+                                            "description": "Connect to PROXY server",
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "server": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string",
+                                                            "format": "ipv4",
+                                                            "description": "The IPv4 address"
+                                                        },
+                                                        {
+                                                            "type": "string",
+                                                            "format": "ipv6",
+                                                            "description": "The IPv6 address"
+                                                        }
+                                                    ]
+                                                },
+                                                "port": {
+                                                    "type": "integer",
+                                                    "maximum": 65535,
+                                                    "minimum": 1,
+                                                    "default": 25,
+                                                    "description": "The port number"
+                                                }
+                                            }
+                                        },
+                                        "sourceip": {
+                                            "type": "object",
+                                            "description": "The source IP settings",
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "ipv4": {
+                                                    "default": true,
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "boolean",
+                                                            "default": true,
+                                                            "description": "Bind any IPv4 address"
+                                                        },
+                                                        {
+                                                            "type": "array",
+                                                            "uniqueItems": true,
+                                                            "minItems": 1,
+                                                            "description": "List of IPv4 addresses",
+                                                            "items": {
+                                                                "$ref": "#/definitions/objectid",
+                                                                "description": "The IPv4 address ID"
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                "ipv6": {
+                                                    "default": true,
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "boolean",
+                                                            "default": true,
+                                                            "description": "Bind any IPv6 address"
+                                                        },
+                                                        {
+                                                            "type": "array",
+                                                            "uniqueItems": true,
+                                                            "minItems": 1,
+                                                            "description": "List of IPv6 addresses",
+                                                            "items": {
+                                                                "$ref": "#/definitions/objectid",
+                                                                "description": "The IPv6 address ID"
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                "random": {
+                                                    "type": "boolean",
+                                                    "default": true,
+                                                    "description": "Use a random source IP"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "session": {
+                                    "type": "object",
+                                    "description": "The session settings",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "protocol": {
+                                            "type": "string",
+                                            "enum": [
+                                                "smtp",
+                                                "lmtp"
+                                            ],
+                                            "default": "smtp",
+                                            "description": "The protocol"
+                                        },
+                                        "hostname": {
+                                            "type": "string",
+                                            "minLength": 1,
+                                            "description": "The hostname"
+                                        },
+                                        "extensions": {
+                                            "type": "object",
+                                            "description": "SMTP extensions",
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "chunking": {
+                                                    "type": "boolean",
+                                                    "default": true,
+                                                    "description": "Enable support for the CHUNKING extension"
+                                                }
+                                            }
+                                        },
+                                        "tls": {
+                                            "type": "object",
+                                            "description": "The TLS settings",
+                                            "required": [
+                                                "mode"
+                                            ],
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "mode": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "optional",
+                                                        "optional_verify",
+                                                        "require",
+                                                        "require_verify",
+                                                        "dane",
+                                                        "dane_require"
+                                                    ],
+                                                    "description": "The TLS mode"
+                                                }
+                                            }
+                                        },
+                                        "authentication": {
+                                            "type": "object",
+                                            "description": "The authentication settings",
+                                            "required": [
+                                                "username",
+                                                "password"
+                                            ],
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "username": {
+                                                    "type": "string",
+                                                    "minLength": 1,
+                                                    "description": "The username"
+                                                },
+                                                "password": {
+                                                    "type": "string",
+                                                    "minLength": 1,
+                                                    "description": "The password"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "retry": {
+                                    "type": "object",
+                                    "description": "The retry settings",
+                                    "required": [
+                                        "intervals",
+                                        "count"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "intervals": {
+                                            "type": "array",
+                                            "uniqueItems": false,
+                                            "minItems": 1,
+                                            "description": "The retry intervals",
+                                            "items": {
+                                                "type": "object",
+                                                "required": [
+                                                    "interval"
+                                                ],
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "interval": {
+                                                        "type": "integer",
+                                                        "minimum": 0,
+                                                        "description": "The interval (in seconds)"
+                                                    },
+                                                    "notify": {
+                                                        "type": "boolean",
+                                                        "default": false,
+                                                        "description": "If a delayed notification should be sent"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "description": "The retry count"
+                                        }
+                                    }
+                                },
+                                "dsn": {
+                                    "type": "object",
+                                    "description": "The DSN settings",
+                                    "required": [
+                                        "transport"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "transport": {
+                                            "$ref": "#/definitions/objectid",
+                                            "description": "The transport ID"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "pki": {
+            "type": "object",
+            "description": "The X.509 certificates and private keys",
+            "additionalProperties": false,
+            "properties": {
+                "private": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "description": "Private keys, possibly with X.509 certificates",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "id"
+                        ],
+                        "properties": {
+                            "id": {
+                                "$ref": "#/definitions/objectid",
+                                "description": "The key ID"
+                            },
+                            "certificate": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "data"
+                                        ],
+                                        "properties": {
+                                            "data": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The PKCS #8 PEM data"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "path"
+                                        ],
+                                        "properties": {
+                                            "path": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The PKCS #8 PEM path"
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "privatekey": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "data"
+                                        ],
+                                        "properties": {
+                                            "data": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The private key data"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "path"
+                                        ],
+                                        "properties": {
+                                            "path": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The private key path"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "addresses": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "Address mapping",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "address"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/definitions/objectid",
+                        "description": "The address ID"
+                    },
+                    "address": {
+                        "description": "The IP address",
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "ipv4",
+                                "description": "The IPv4 address"
+                            },
+                            {
+                                "type": "string",
+                                "format": "ipv6",
+                                "description": "The IPv6 address"
+                            }
+                        ]
+                    },
+                    "hostname": {
+                        "type": "string",
+                        "description": "Reverse address",
+                        "minLength": 1
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "objectid": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_.]+$",
+            "minLength": 1,
+            "maxLength": 64
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["type", "event_id", "timestamp", "recipient", "message_id", "ip", "user_agent", "url"],
+    "properties": {
+        "type": {
+            "type": "string",
+            "enum": ["click"]
+        },
+        "event_id": {
+            "type": "string"
+        },
+        "timestamp": {
+            "type": "string"
+        },
+        "recipient": {
+            "type": "string"
+        },
+        "message_id": {
+            "type": "string"
+        },
+        "ip": {
+            "type": "string"
+        },
+        "user_agent": {
+            "type": "string"
+        },
+        "url": {
+            "type": "string"
+        },
+        "additional": {
+            "type": "object",
+            "additionalProperties": true
+        }
+    }
+}

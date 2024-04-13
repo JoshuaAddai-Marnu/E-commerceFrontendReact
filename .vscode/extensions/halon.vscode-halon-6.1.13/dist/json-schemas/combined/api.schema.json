@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$ref": "file:../api/6.1-stable/api.schema.json"
+    },
+    {
+      "$ref": "file:../api/6.0-stable/api.schema.json"
+    },
+    {
+      "$ref": "file:../api/5.9-stable/api.schema.json"
+    },
+    {
+      "$ref": "file:../api/5.8-stable/api.schema.json"
+    },
+    {
+      "$ref": "file:../api/5.7-stable/api.schema.json"
+    },
+    {
+      "$ref": "file:../api/5.6-stable/api.schema.json"
+    },
+    {
+      "$ref": "file:../api/5.5-stable/api.schema.json"
+    },
+    {
+      "$ref": "file:../api/5.12-stable/api.schema.json"
+    },
+    {
+      "$ref": "file:../api/5.11-stable/api.schema.json"
+    },
+    {
+      "$ref": "file:../api/5.10-stable/api.schema.json"
+    }
+  ]
+}

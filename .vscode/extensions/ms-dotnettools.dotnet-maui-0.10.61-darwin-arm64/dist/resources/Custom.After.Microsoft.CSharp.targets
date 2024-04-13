@@ -1,0 +1,4 @@
+<Project>
+  <Import Project="$(MSBuildThisFileDirectory)MSBuild/**/*.props" />
+  <Import Project="$(MSBuildThisFileDirectory)MSBuild/**/*.targets" />
+</Project>

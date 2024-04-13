@@ -1,0 +1,203 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["recipients", "message"],
+  "properties": {
+    "sender": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["localpart", "domain"],
+          "properties": {
+            "localpart": { "$ref": "#/definitions/localpart" },
+            "domain": { "$ref": "#/definitions/domain" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["email"],
+          "properties": {
+            "email": { "$ref": "#/definitions/email" }
+          }
+        }
+      ]
+    },
+    "recipients": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["localpart", "domain"],
+            "properties": {
+              "localpart": { "$ref": "#/definitions/localpart" },
+              "domain": { "$ref": "#/definitions/domain" },
+              "substitutions": { "$ref": "#/definitions/substitutions" },
+              "metadata": { "$ref": "#/definitions/metadata" },
+              "tracking": { "$ref": "#/definitions/recipients.tracking" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["email"],
+            "properties": {
+              "email": { "$ref": "#/definitions/email" },
+              "substitutions": { "$ref": "#/definitions/substitutions" },
+              "metadata": { "$ref": "#/definitions/metadata" },
+              "tracking": { "$ref": "#/definitions/recipients.tracking" }
+            }
+          }
+        ]
+      }
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "cc": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "html": {
+          "type": "string"
+        },
+        "amp_html": {
+          "type": "string"
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["data", "type", "name"],
+                "properties": {
+                  "data": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["data", "type", "cid"],
+                "properties": {
+                  "data": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "cid": {
+                    "type": "string"
+                  },
+                  "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "tracking": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "click": {
+          "type": "boolean"
+        },
+        "open": {
+          "type": "boolean"
+        },
+        "unsubscribe": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "additional": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  },
+  "definitions": {
+    "localpart": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "substitutions": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "recipients.tracking": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "additional": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

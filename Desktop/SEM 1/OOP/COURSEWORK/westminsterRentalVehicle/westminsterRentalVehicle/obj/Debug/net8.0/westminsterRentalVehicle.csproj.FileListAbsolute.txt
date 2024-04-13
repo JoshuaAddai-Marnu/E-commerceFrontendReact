@@ -1,0 +1,14 @@
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\bin\Debug\net8.0\westminsterRentalVehicle.exe
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\bin\Debug\net8.0\westminsterRentalVehicle.deps.json
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\bin\Debug\net8.0\westminsterRentalVehicle.runtimeconfig.json
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\bin\Debug\net8.0\westminsterRentalVehicle.dll
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\bin\Debug\net8.0\westminsterRentalVehicle.pdb
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\obj\Debug\net8.0\westminsterRentalVehicle.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\obj\Debug\net8.0\westminsterRentalVehicle.AssemblyInfoInputs.cache
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\obj\Debug\net8.0\westminsterRentalVehicle.AssemblyInfo.cs
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\obj\Debug\net8.0\westminsterRentalVehicle.csproj.CoreCompileInputs.cache
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\obj\Debug\net8.0\westminsterRentalVehicle.dll
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\obj\Debug\net8.0\refint\westminsterRentalVehicle.dll
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\obj\Debug\net8.0\westminsterRentalVehicle.pdb
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\obj\Debug\net8.0\westminsterRentalVehicle.genruntimeconfig.cache
+C:\Users\Kobby\source\repos\westminsterRentalVehicle\westminsterRentalVehicle\obj\Debug\net8.0\ref\westminsterRentalVehicle.dll

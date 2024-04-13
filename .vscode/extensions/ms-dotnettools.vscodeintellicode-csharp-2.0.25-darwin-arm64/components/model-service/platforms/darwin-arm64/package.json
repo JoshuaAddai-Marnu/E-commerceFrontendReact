@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "dependencies": {
+    "@vsintellicode/model-service.darwin-arm64": "1.0.14-beta.g593e467b05"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://devdiv.visualstudio.com/DefaultCollection/DevDiv/_git/IntelliCode-VS",
+    "branch": "green"
+  }
+}

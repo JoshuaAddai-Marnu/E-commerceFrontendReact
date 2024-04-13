@@ -1,0 +1,266 @@
+mkdir IdentityPractice
+cd IdentityPractice
+
+create a new web api template in this folder:
+dotnet new webapi
+
+open the project in the VS code
+
+create models folder:
+mkdir Models
+
+inside this folder, create the classes:
+Student.cs:
+//code
+using System.Collections.Generic;
+
+namespace IdentityPractice.Models
+{
+    public class Student
+    {
+        public int StudentId { get; set; }
+        public string Name { get; set; }
+
+        public List<Enrollment>? Enrollments { get; set; }
+    }
+}
+
+
+Course.cs
+
+
+//code
+using System.Collections.Generic;
+
+namespace IdentityPractice.Models
+{
+    public class Course
+    {
+        public int CourseId { get; set; }
+        public string Title { get; set; }
+
+        public List<Enrollment>? Enrollments { get; set; }
+    }
+}
+
+
+
+Enrollment.cs
+
+//code
+namespace IdentityPractice.Models
+{
+    public class Enrollment
+    {
+        public int EnrollmentId { get; set; }
+        public int StudentId { get; set; }
+        public int CourseId { get; set; }
+
+        public Student Student { get; set; }
+        public Course Course { get; set; }
+    }
+}
+
+Now add the SchoolContext.cs file in models folder:
+
+//code
+namespace IdentityPractice.Models
+{
+public class SchoolContext : DbContext
+    {
+        public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
+        {
+        }
+
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
+	}
+}
+
+
+install required packages (terminal):
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+
+
+Update the appsettings.json with connection string:
+"ConnectionStrings": {
+    "Connection": "Data Source=school.db;"
+  },
+  
+  
+now, in program.cs, register the context with dependency injection:
+//code
+builder.Services.AddControllers();
+builder.Services.AddDbContext<SchoolContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("Connection")));
+
+and then add
+app.MapControllers();
+
+just before the 
+app.UseHttpsRedirection();
+
+Now, we want to add the migrations and update the DB (terminal):
+as we are using vs code, we need to install a few things in order first:
+
+dotnet new tool-manifest
+
+dotnet tool install --local dotnet-ef
+
+dotnet ef migrations add InitialCreate
+
+dotnet ef database update
+
+
+Genrate the controllers:
+
+
+dotnet tool install --local dotnet-aspnet-codegenerator
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+
+
+dotnet aspnet-codegenerator controller -name StudentsController -async -api -m Student -dc SchoolContext -outDir Controllers
+dotnet aspnet-codegenerator controller -name CoursesController -async -api -m Course -dc SchoolContext -outDir Controllers
+dotnet aspnet-codegenerator controller -name EnrollmentsController -async -api -m Enrollment -dc SchoolContext -outDir Controllers
+
+dotnet run
+
+Next part is to consume it in Postman:
+create a new student:
+
+{
+  "name": "Ebad Majeed"
+}
+
+Edit a student (pass id in the url too):
+{
+  "studentId": 1,
+  "name": "Updated Name"
+}
+
+Delete a student (pass id in the url too):
+just update the method in postman, no body required
+
+For Course:
+Create new:
+
+{
+  "title": "Introduction to Programming"
+}
+
+Update existing (pass id in the url too):
+{
+  "courseId": 1,
+  "title": "Updated Course Title"
+}
+
+Enrollments:
+
+create:
+{
+  "studentId": 1,
+  "courseId": 1,
+}
+
+???
+
+Next step publish your project to GitHub (use Git Bash):
+
+To check which account you are currently logged in with on Git Bash, you can use the following command:
+
+git bash:
+git config --get user.email
+This command will show you the email associated with the 
+Git configuration for the current user. Typically, this 
+email is linked to the account you are logged in with. 
+If you want to check the username as well, you can use:
+
+git bash:
+git config --get user.name
+This command will display the username associated with 
+the Git configuration.
+
+These commands will give you information about the account 
+currently configured in Git. However, note that Git itself 
+does not "log in" in the same way as services like GitHub 
+or GitLab. Instead, it relies on configuration settings 
+for user identification.
+
+
+
+If the commands execute but don't give an output, it's 
+possible that there is no user configuration set in Git. 
+In that case, Git will not output anything when you try 
+to retrieve user information.
+
+To set up your user information in Git, you can use the 
+following commands:
+
+git bash:
+git config --global user.name "Your Name"
+git config --global user.email "your_email@example.com"
+Replace "Your Name" with your actual name and 
+"your_email@example.com" with your email address. 
+Once you've set this information, you should be able to 
+retrieve it using the commands mentioned earlier:
+
+git bash:
+git config --get user.name
+git config --get user.email
+If you've set up your user information and still don't 
+see any output, there may be an issue with your Git 
+installation or configuration. In that case, you may need 
+to troubleshoot further or reinstall Git.
+
+
+
+To resolve password authentication issue (if encountered), 
+follow these steps:
+
+Generate a Personal Access Token (PAT) on GitHub:
+
+Go to your GitHub account settings.
+Navigate to "Developer settings" 
+	> "Personal access tokens."
+Click on "Generate new token" and follow the instructions 
+to create a new token.
+
+Make sure to select the necessary scopes depending on what 
+operations you want to perform with Git (e.g., repo access 
+for private repositories).
+
+Copy the generated token to use it in the next step.
+Update Git configuration with the Personal Access Token:
+
+Open Git Bash.
+
+Navigate to the repository directory if you haven't already.
+
+Use the following command to update the remote URL, 
+replacing <your-token> with the PAT you generated:
+
+git bash:
+
+git remote set-url origin https://<your-token>@github.com/username/repository.git
+Replace username with your GitHub username and repository 
+with the name of your repository.
+
+Attempt the Git operation again:
+
+Once you've updated the remote URL with the PAT, try the 
+Git operation (e.g., push, pull) again. This time it 
+should use the personal access token for authentication, 
+and you shouldn't encounter the authentication failure 
+message.
+Using personal access tokens is a safer and more secure 
+alternative to password authentication for Git operations 
+with GitHub repositories. Remember to keep your tokens 
+secure and avoid sharing them publicly.
+
+
+Microsoft Azure (next)
+

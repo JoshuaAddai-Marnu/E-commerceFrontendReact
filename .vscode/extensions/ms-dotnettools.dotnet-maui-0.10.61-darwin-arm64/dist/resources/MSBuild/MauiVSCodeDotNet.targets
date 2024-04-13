@@ -1,0 +1,26 @@
+<Project>
+	<Target Name="_GetDotNetSdkInformation">
+		<ItemGroup>
+			<LinesToWrite Include="NETCoreSDKVersion=$(NETCoreSDKVersion)" />
+			<LinesToWrite Include="NetCoreRoot=$(NetCoreRoot)" />
+		</ItemGroup>
+		
+		<WriteLinesToFile
+			File="$(MauiVSCodeBuildOutputFile)"
+			Lines="@(LinesToWrite)"
+			Overwrite="true" >
+		</WriteLinesToFile>
+	</Target>
+
+	<Target Name="_GetDotNetSuggestedWorkloads" DependsOnTargets="GetSuggestedWorkloads">
+		<ItemGroup>
+			<LinesToWrite Include="@(SuggestedWorkload)" />
+		</ItemGroup>
+		
+		<WriteLinesToFile
+			File="$(MauiVSCodeBuildOutputFile)"
+			Lines="@(LinesToWrite)"
+			Overwrite="true" >
+		</WriteLinesToFile>
+	</Target>
+</Project>

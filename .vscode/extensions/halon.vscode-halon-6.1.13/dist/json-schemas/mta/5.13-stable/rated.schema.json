@@ -1,0 +1,208 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The rate (rated) settings",
+    "markdownDescription": "The [rate](https://docs.halon.io/hsl/functions.html#core.rate) (`rated`) settings",
+    "additionalProperties": false,
+    "required": ["version"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["5.13"],
+            "description": "The software version the configuration was created for"
+        },
+        "key": {
+            "type": "string",
+            "minLength": 40,
+            "maxLength": 128,
+            "pattern": "^[a-f0-9]+$",
+            "description": "Used for rate synchronization between units"
+        },
+        "syncdelay": {
+            "type": "integer",
+            "default": 25,
+            "minimum": 0,
+            "description": "Sync delay per packet to limit PPS"
+        },
+        "listen": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "description": "Listen address",
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "format": "ipv4",
+                            "description": "The IPv4 address"
+                        },
+                        {
+                            "type": "string",
+                            "format": "ipv6",
+                            "description": "The IPv6 address"
+                        }
+                    ]
+                },
+                "port": {
+                    "type": "integer",
+                    "maximum": 65535,
+                    "default": 13131,
+                    "minimum": 1,
+                    "description": "Port number"
+                }
+            }
+        },
+        "reresolve": {
+            "type": "number",
+            "minimum": 1,
+            "description": "Automatically re-resolve the hostnames of the synchronization peers every x seconds (The default is to never re-resolve the hostnames of the synchronization peers automatically)"
+        },
+        "environment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "socket": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/rated.sock",
+                                    "description": "socket path"
+                                },
+                                "owner": {
+                                    "type": "string",
+                                    "description": "socket owner"
+                                },
+                                "group": {
+                                    "type": "string",
+                                    "description": "socket group"
+                                },
+                                "chmod": {
+                                    "$ref": "#/definitions/mode",
+                                    "description": "socket chmod"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "port"
+                            ],
+                            "properties": {
+                                "port": {
+                                    "type": "integer",
+                                    "maximum": 65535,
+                                    "minimum": 1,
+                                    "description": "Port number"
+                                },
+                                "address": {
+                                    "description": "IP address",
+                                    "anyOf": [
+                                        {
+                                            "type": "string",
+                                            "format": "ipv4",
+                                            "description": "IPv4 address"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "format": "ipv6",
+                                            "description": "IPv6 address"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                "controlsocket": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/rated.ctl",
+                                    "description": "socket path"
+                                },
+                                "owner": {
+                                    "type": "string",
+                                    "description": "socket owner"
+                                },
+                                "group": {
+                                    "type": "string",
+                                    "description": "socket group"
+                                },
+                                "chmod": {
+                                    "$ref": "#/definitions/mode",
+                                    "description": "socket chmod"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "port"
+                            ],
+                            "properties": {
+                                "port": {
+                                    "type": "integer",
+                                    "maximum": 65535,
+                                    "minimum": 1,
+                                    "description": "Port number"
+                                },
+                                "address": {
+                                    "description": "IP address",
+                                    "anyOf": [
+                                        {
+                                            "type": "string",
+                                            "format": "ipv4",
+                                            "description": "IPv4 address"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "format": "ipv6",
+                                            "description": "IPv6 address"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                "privdrop": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "user": {
+                            "type": "string",
+                            "description": "Privdrop user"
+                        },
+                        "group": {
+                            "type": "string",
+                            "description": "Privdrop group"
+                        }
+                    }
+                },
+                "appconf": {
+                    "type": "string",
+                    "default": "/etc/halon/rated-app.yaml",
+                    "description": "Application conf path"
+                }
+            }
+        }
+    },
+    "definitions": {
+        "mode": {
+            "type": "string",
+            "pattern": "^[0-7][0-7][0-7][0-7]$",
+            "minLength": 4,
+            "maxLength": 4
+        }
+    }
+}

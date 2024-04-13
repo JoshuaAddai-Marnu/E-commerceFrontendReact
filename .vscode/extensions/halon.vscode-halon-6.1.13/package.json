@@ -1,0 +1,182 @@
+{
+	"private": true,
+	"version": "6.1.13",
+	"engines": {
+		"vscode": "^1.56.2"
+	},
+	"name": "vscode-halon",
+	"displayName": "Halon Configuration Packer",
+	"publisher": "Halon",
+	"description": "Halon Configuration Packer",
+	"author": {
+		"name": "Halon Security AB"
+	},
+	"categories": [],
+	"keywords": [
+		"halon",
+		"hsl"
+	],
+	"icon": "icon.png",
+	"contributes": {
+		"configuration": {
+			"title": "Halon",
+			"properties": {
+				"halon.build.exclude": {
+					"type": "array",
+					"default": [],
+					"items": {
+						"type": "string"
+					},
+					"markdownDescription": "Source files inside `src/files` that should be omitted when building the `smtpd-app.yaml` file"
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "halon.init",
+				"title": "Init",
+				"category": "Halon"
+			},
+			{
+				"command": "halon.build",
+				"title": "Build",
+				"category": "Halon"
+			}
+		],
+		"yamlValidation": [
+			{
+				"fileMatch": "smtpd.yaml",
+				"url": "./dist/json-schemas/combined/smtpd.schema.json"
+			},
+			{
+				"fileMatch": "smtpd-app.yaml",
+				"url": "./dist/json-schemas/combined/smtpd-app.schema.json"
+			},
+			{
+				"fileMatch": "smtpd-policy.yaml",
+				"url": "./dist/json-schemas/combined/smtpd-policy.schema.json"
+			},
+			{
+				"fileMatch": "smtpd-suspend.yaml",
+				"url": "./dist/json-schemas/combined/smtpd-suspend.schema.json"
+			},
+			{
+				"fileMatch": "smtpd-delivery.yaml",
+				"url": "./dist/json-schemas/combined/smtpd-delivery.schema.json"
+			},
+			{
+				"fileMatch": "halonctl.yaml",
+				"url": "./dist/json-schemas/combined/halonctl.schema.json"
+			},
+			{
+				"fileMatch": "dlpd.yaml",
+				"url": "./dist/json-schemas/combined/dlpd.schema.json"
+			},
+			{
+				"fileMatch": "dlpd-app.yaml",
+				"url": "./dist/json-schemas/combined/dlpd-app.schema.json"
+			},
+			{
+				"fileMatch": "dlpctl.yaml",
+				"url": "./dist/json-schemas/combined/dlpctl.schema.json"
+			},
+			{
+				"fileMatch": "rated.yaml",
+				"url": "./dist/json-schemas/combined/rated.schema.json"
+			},
+			{
+				"fileMatch": "rated-app.yaml",
+				"url": "./dist/json-schemas/combined/rated-app.schema.json"
+			},
+			{
+				"fileMatch": "ratectl.yaml",
+				"url": "./dist/json-schemas/combined/ratectl.schema.json"
+			},
+			{
+				"fileMatch": "api.yaml",
+				"url": "./dist/json-schemas/combined/api.schema.json"
+			},
+			{
+				"fileMatch": "web.yaml",
+				"url": "./dist/json-schemas/combined/web.schema.json"
+			},
+			{
+				"fileMatch": "web-history.yaml",
+				"url": "./dist/json-schemas/combined/web-history.schema.json"
+			},
+			{
+				"fileMatch": "submission.yaml",
+				"url": "./dist/json-schemas/combined/submission.schema.json"
+			},
+			{
+				"fileMatch": "submission-tracking.yaml",
+				"url": "./dist/json-schemas/combined/submission-tracking.schema.json"
+			}
+		]
+	},
+	"activationEvents": [
+		"onLanguage:hsl",
+		"onCommand:halon.init",
+		"onCommand:halon.build"
+	],
+	"qna": false,
+	"scripts": {
+		"vscode:prepublish": "npm run package-ext",
+		"compile": "webpack --config ./webpack.config.js",
+		"lint": "eslint src --ext ts",
+		"watch": "webpack --watch --devtool nosources-source-map --config ./webpack.config.js",
+		"pretest": "npm run compile && npm run lint",
+		"package": "vsce package",
+		"publish": "vsce publish",
+		"package-ext": "webpack --mode production --config ./webpack.config.js"
+	},
+	"bugs": {
+		"url": "https://github.com/halon/vscode-extensions/issues",
+		"email": "support@halon.io"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/halon/vscode-extensions"
+	},
+	"homepage": "https://github.com/halon/vscode-extensions",
+	"extensionDependencies": [
+		"redhat.vscode-yaml"
+	],
+	"devDependencies": {
+		"@halon/hsl-docs": "github:halon/hsl-docs#4a1801255c835dab337bb028a4877acf6425d476",
+		"@types/glob": "^7.2.0",
+		"@types/is-utf8": "^0.2.0",
+		"@types/node": "^15.12.2",
+		"@types/vscode": "^1.56.0",
+		"@typescript-eslint/eslint-plugin": "^4.31.2",
+		"@typescript-eslint/parser": "^4.31.2",
+		"@vscode/vsce": "^2.19.0",
+		"copy-webpack-plugin": "^9.0.1",
+		"eslint": "^7.32.0",
+		"ts-loader": "^9.2.3",
+		"typescript": "^4.3.2",
+		"webpack": "^5.89.0",
+		"webpack-cli": "^5.1.4"
+	},
+	"dependencies": {
+		"@halon/json-schemas": "github:halon/json-schemas#43a404b7ff09cb7ad77d26ae8c286bd3abe541e3",
+		"ajv": "^6.10.2",
+		"glob": "^7.2.0",
+		"is-utf8": "^0.2.1",
+		"mem": "^9.0.1",
+		"minimatch": "^3.0.4",
+		"yaml": "^1.10.0"
+	},
+	"main": "./dist/extension",
+	"__metadata": {
+		"id": "520cc227-8f65-42df-917b-05bdd8c27660",
+		"publisherId": "ce431d53-d967-4093-95ab-aa3319e170bb",
+		"publisherDisplayName": "Halon",
+		"targetPlatform": "undefined",
+		"isApplicationScoped": false,
+		"updated": true,
+		"isPreReleaseVersion": false,
+		"installedTimestamp": 1712651689083,
+		"preRelease": false
+	}
+}

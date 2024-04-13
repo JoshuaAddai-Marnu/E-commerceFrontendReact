@@ -1,0 +1,58 @@
+{
+	"name": "jason-vscode-theme",
+	"displayName": "Jason VSCode Theme",
+	"description": "This is a minimalistic VSCode theme that looks good, and doesn't distract you from your code. It is now available in dark, light, and even lighter for the people that like to burn their eyes.",
+	"publisher": "jasonli0616",
+	"author": {
+		"name": "Jason Li",
+		"url": "https://jasonli0616.dev"
+	},
+	"version": "1.0.0",
+	"engines": {
+		"vscode": "^1.50.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jasonli0616/jason-vscode-theme.git"
+	},
+	"bugs": {
+		"url": "https://github.com/jasonli0616/jason-vscode-theme/issues"
+	},
+	"icon": "images/icon.png",
+	"categories": [
+		"Themes"
+	],
+	"keywords": [
+		"Jason VSCode Theme",
+		"jasonli0616"
+	],
+	"contributes": {
+		"themes": [
+			{
+				"label": "Jason VSCode Theme",
+				"uiTheme": "vs-dark",
+				"path": "./themes/Jason VSCode Theme-color-theme.json"
+			},
+			{
+				"label": "Jason VSCode Theme - Light",
+				"uiTheme": "vs",
+				"path": "./themes/Jason VSCode Theme Light-color-theme.json"
+			},
+			{
+				"label": "Jason VSCode Theme - Even Lighter",
+				"uiTheme": "vs",
+				"path": "./themes/Jason VSCode Theme Even Lighter-color-theme.json"
+			}
+		]
+	},
+	"__metadata": {
+		"id": "e06667d5-d42c-4044-8810-a88f0d0082ec",
+		"publisherId": "9f906e58-32b4-487e-bf20-3ebc49fe2c6b",
+		"publisherDisplayName": "jasonli0616",
+		"targetPlatform": "undefined",
+		"updated": false,
+		"isPreReleaseVersion": false,
+		"installedTimestamp": 1709500330037,
+		"preRelease": false
+	}
+}

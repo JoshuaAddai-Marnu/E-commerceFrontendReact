@@ -1,0 +1,18 @@
+# Please see the documentation for all configuration options:
+# https://eng.ms/docs/products/dependabot/configuration/version_updates
+
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: /
+  schedule:
+    interval: weekly
+  ignore:
+  # ignore NPM packages that come from partner teams and are inserted another way (typically with a components/package.json file change.)
+  - dependency-name: "@microsoft/visualstudio-testwindow-vscode-client"
+  # Do not update this package automatically. It should be kept in sync with whatever version of node.js is behind the VS Code version we target.
+  - dependency-name: "@types/node"
+- package-ecosystem: nuget
+  directory: /tools/msbuild
+  schedule:
+    interval: monthly

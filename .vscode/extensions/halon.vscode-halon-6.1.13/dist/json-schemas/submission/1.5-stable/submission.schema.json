@@ -1,0 +1,357 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "The settings for the submission endpoint",
+  "additionalProperties": false,
+  "required": ["version", "listeners"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": ["1.5"],
+      "description": "The software version the configuration was created for"
+    },
+    "authentication": {
+      "type": "object",
+      "description": "The authentication settings",
+      "additionalProperties": false,
+      "properties": {
+        "apikeys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "List of allowed API keys for the HTTP server (sent in the X-API-Key header)."
+          }
+        }
+      }
+    },
+    "listeners": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "The IP addresses and ports to listen on. If no IP addresses are specificed it will bind to any (both IPv4 and IPv6)",
+      "items": {
+        "type": "object",
+        "required": [
+          "port"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "port": {
+            "type": "integer",
+            "maximum": 65535,
+            "minimum": 1,
+            "description": "Port number"
+          },
+          "address": {
+            "description": "IP address",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "ipv4",
+                "description": "IPv4 address"
+              },
+              {
+                "type": "string",
+                "format": "ipv6",
+                "description": "IPv6 address"
+              }
+            ]
+          },
+          "pki": {
+            "type": "object",
+            "description": "The X.509 certificate and private key",
+            "additionalProperties": false,
+            "required": [
+              "certificate",
+              "privatekey"
+            ],
+            "properties": {
+              "certificate": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "data"
+                    ],
+                    "properties": {
+                      "data": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The PKCS #8 PEM data"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "path"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The PKCS #8 PEM path"
+                      }
+                    }
+                  }
+                ]
+              },
+              "privatekey": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "data"
+                    ],
+                    "properties": {
+                      "data": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The private key data"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "path"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The private key path"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "proxy": {
+            "oneOf": [
+              {
+                "type": "boolean",
+                "description": "Trust all IP-addresses and subnets as being reverse proxies",
+                "default": false
+              },
+              {
+                "type": "array",
+                "uniqueItems": true,
+                "minItems": 1,
+                "description": "A list of IP addresses and subnets to trust as being reverse proxies",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "default": []
+              }
+            ]
+          }
+        }
+      }
+    },
+    "hosts": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "The Halon MTA node(s)",
+      "items": {
+        "type": "object",
+        "required": [
+          "address",
+          "port"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "description": "IP address or hostname",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "ipv4",
+                "description": "IPv4 address"
+              },
+              {
+                "type": "string",
+                "format": "ipv6",
+                "description": "IPv6 address"
+              },
+              {
+                "type": "string",
+                "description": "Hostname"
+              }
+            ]
+          },
+          "port": {
+            "type": "integer",
+            "maximum": 65535,
+            "minimum": 1,
+            "description": "Port number"
+          },
+          "tls": {
+            "oneOf": [
+              {
+                "type": "boolean",
+                "default": false,
+                "description": "If TLS should be used for the requests"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "The TLS options",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If TLS should be used for the requests"
+                  },
+                  "verify": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If the server certificate should be verified"
+                  }
+                }
+              }
+            ]
+          },
+          "apikey": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The API key that will be used for the requests (sent in the X-API-Key header)."
+          },
+          "xforwardedfor": {
+            "type": "boolean",
+            "default": false,
+            "description": "Set the 'X-Forwarded-For' header"
+          }
+        }
+      }
+    },
+    "workers": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The amount of child processes that should be started to handle incoming requests."
+    },
+    "maxsize": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 10485760,
+      "description": "The maximum request body size to accept."
+    },
+    "queues": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The queue settings against the backend hosts",
+      "properties": {
+        "timeout": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The timeout settings against the backend hosts",
+          "properties": {
+            "connect": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 30,
+              "description": "The connect timeout (in seconds) against the backend hosts"
+            },
+            "socket": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 900,
+              "description": "The socket timeout (in seconds) against the backend hosts"
+            }
+          }
+        },
+        "concurrency": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The concurrency settings against the backend hosts",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "The total amount of concurrent connections that should be allowed against all the backend hosts."
+            },
+            "ip": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "The max amount of concurrent connections that should be allowed against each individual backend host."
+            }
+          }
+        }
+      }
+    },
+    "tracking": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "secret"],
+      "description": "The tracking settings",
+      "properties": {
+        "click": {
+          "type": "boolean",
+          "default": "false",
+          "description": "If click tracking should be enabled or not."
+        },
+        "open": {
+          "type": "boolean",
+          "default": "false",
+          "description": "If open tracking should be enabled or not."
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The base url that should be used for the rewritten links and tracking pixels."
+        },
+        "secret": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "key"],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 254,
+              "description": "The ID of the secret that should be used to generate the hash of the tracking payload."
+            },
+            "key": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The key for the secret that should be used to generate the hash of the tracking payload."
+            }
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "boolean",
+      "default": false,
+      "description": "Pass source information to the MTA hosts in the metadata."
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "privdrop": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "user": {
+              "type": "string",
+              "description": "Privdrop user"
+            },
+            "group": {
+              "type": "string",
+              "description": "Privdrop group"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,523 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The delivery configuration",
+    "markdownDescription": "The [delivery](https://docs.halon.io/manual/queue.html) configuration",
+    "additionalProperties": false,
+    "required": ["version"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["5.14"],
+            "description": "The software version the configuration was created for"
+        },
+        "delivery": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["if", "then"],
+                        "properties": {
+                            "if": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "jobid": {
+                                        "oneOf": [
+                                            { "$ref": "#/definitions/list" },
+                                            { "$ref": "#/definitions/jobid" },
+                                            { "$ref": "#/definitions/regex" },
+                                            {
+                                                "type": "array",
+                                                "minItems": 1,
+                                                "items": {
+                                                    "oneOf": [
+                                                        { "$ref": "#/definitions/list" },
+                                                        { "$ref": "#/definitions/jobid" },
+                                                        { "$ref": "#/definitions/regex" }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "grouping": {
+                                        "oneOf": [
+                                            { "$ref": "#/definitions/list" },
+                                            { "$ref": "#/definitions/grouping" },
+                                            { "$ref": "#/definitions/regex" },
+                                            {
+                                                "type": "array",
+                                                "minItems": 1,
+                                                "items": {
+                                                    "oneOf": [
+                                                        { "$ref": "#/definitions/list" },
+                                                        { "$ref": "#/definitions/grouping" },
+                                                        { "$ref": "#/definitions/regex" }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "localip": {
+                                        "oneOf": [
+                                            { "$ref": "#/definitions/list" },
+                                            { "$ref": "#/definitions/ipv4" },
+                                            { "$ref": "#/definitions/ipv4net" },
+                                            { "$ref": "#/definitions/ipv6" },
+                                            { "$ref": "#/definitions/ipv6net" },
+                                            {
+                                                "type": "array",
+                                                "minItems": 1,
+                                                "items": {
+                                                    "oneOf": [
+                                                        { "$ref": "#/definitions/list" },
+                                                        { "$ref": "#/definitions/ipv4" },
+                                                        { "$ref": "#/definitions/ipv4net" },
+                                                        { "$ref": "#/definitions/ipv6" },
+                                                        { "$ref": "#/definitions/ipv6net" }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "remoteip": {
+                                        "oneOf": [
+                                            { "$ref": "#/definitions/list" },
+                                            { "$ref": "#/definitions/ipv4" },
+                                            { "$ref": "#/definitions/ipv4net" },
+                                            { "$ref": "#/definitions/ipv6" },
+                                            { "$ref": "#/definitions/ipv6net" },
+                                            {
+                                                "type": "array",
+                                                "minItems": 1,
+                                                "items": {
+                                                    "oneOf": [
+                                                        { "$ref": "#/definitions/list" },
+                                                        { "$ref": "#/definitions/ipv4" },
+                                                        { "$ref": "#/definitions/ipv4net" },
+                                                        { "$ref": "#/definitions/ipv6" },
+                                                        { "$ref": "#/definitions/ipv6net" }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "transportid": {
+                                        "oneOf": [
+                                            { "$ref": "#/definitions/list" },
+                                            { "$ref": "#/definitions/objectid" },
+                                            { "$ref": "#/definitions/regex" },
+                                            {
+                                                "type": "array",
+                                                "minItems": 1,
+                                                "items": {
+                                                    "oneOf": [
+                                                        { "$ref": "#/definitions/list" },
+                                                        { "$ref": "#/definitions/objectid" },
+                                                        { "$ref": "#/definitions/regex" }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "recipientdomain": {
+                                        "oneOf": [
+                                            { "$ref": "#/definitions/list" },
+                                            { "$ref": "#/definitions/domain" },
+                                            { "$ref": "#/definitions/wildcard" },
+                                            { "$ref": "#/definitions/regex" },
+                                            {
+                                                "type": "array",
+                                                "minItems": 1,
+                                                "items": {
+                                                    "oneOf": [
+                                                        { "$ref": "#/definitions/list" },
+                                                        { "$ref": "#/definitions/domain" },
+                                                        { "$ref": "#/definitions/wildcard" },
+                                                        { "$ref": "#/definitions/regex" }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "remotemx": {
+                                        "oneOf": [
+                                            { "$ref": "#/definitions/list" },
+                                            { "$ref": "#/definitions/domain" },
+                                            { "$ref": "#/definitions/wildcard" },
+                                            { "$ref": "#/definitions/regex" },
+                                            {
+                                                "type": "array",
+                                                "minItems": 1,
+                                                "items": {
+                                                    "oneOf": [
+                                                        { "$ref": "#/definitions/list" },
+                                                        { "$ref": "#/definitions/domain" },
+                                                        { "$ref": "#/definitions/wildcard" },
+                                                        { "$ref": "#/definitions/regex" }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "then": { "$ref": "#/definitions/settings" }
+                        }
+                    }
+                },
+                "default": { "$ref": "#/definitions/settings" }
+            }
+        }
+    },
+    "definitions": {
+        "list": {
+            "type": "string",
+            "pattern": "^@[a-zA-Z0-9-_.]+$",
+            "minLength": 2,
+            "maxLength": 64
+        },
+        "settings": {
+            "type": "object",
+            "additionalProperties": false,
+            "minProperties": 1,
+            "properties": {
+                "tls": {
+                    "type": "object",
+                    "description": "The TLS settings",
+                    "additionalProperties": false,
+                    "properties": {
+                        "mode": {
+                            "type": "string",
+                            "enum": [
+                                "disabled",
+                                "optional",
+                                "optional_verify",
+                                "require",
+                                "require_verify"
+                            ],
+                            "description": "The TLS mode"
+                        }
+                    }
+                },
+                "pooling": {
+                    "type": "object",
+                    "description": "The connection pooling settings",
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "If connection pooling should be enabled"
+                        },
+                        "evictable": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "If the connection is evictable from the cache due to the cache replacement policy (LRU) if the cache is full"
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "default": 5,
+                            "description": "The idle timeout (in seconds) before an unused connection is closed"
+                        },
+                        "transactions": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "default": 0,
+                            "description": "The transactions per connection (0 is unlimited)"
+                        }
+                    }
+                },
+                "timeout": {
+                    "type": "object",
+                    "description": "The connection timeout settings",
+                    "additionalProperties": false,
+                    "properties": {
+                        "connect": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "default": 30,
+                            "description": "The connect timeout (in seconds)"
+                        },
+                        "smtp": {
+                            "type": "object",
+                            "description": "The connection timeout settings",
+                            "additionalProperties": false,
+                            "properties": {
+                                "BANNER": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "HELO": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "EHLO": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "LHLO": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "STARTTLS": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "AUTH-CRAM-MD5": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "AUTH-PLAIN": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "AUTH-LOGIN": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "AUTH-LOGIN-USER": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "AUTH": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "XCLIENT": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "MAIL": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "RCPT": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 300
+                                },
+                                "DATA": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 120
+                                },
+                                "EOD": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 600
+                                },
+                                "RSET": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 30
+                                },
+                                "NOOP": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 30
+                                },
+                                "QUIT": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "default": 30
+                                }
+                            }
+                        }
+                    }
+                },
+                "retry": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "description": "The retry settings",
+                            "required": [
+                                "intervals",
+                                "count"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "intervals": {
+                                    "type": "array",
+                                    "uniqueItems": false,
+                                    "minItems": 1,
+                                    "description": "The retry intervals",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "interval"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "interval": {
+                                                "oneof": [
+                                                    {
+                                                        "type": "integer",
+                                                        "minimum": 0,
+                                                        "description": "The interval (in seconds)"
+                                                    },
+                                                    {
+                                                        "$ref": "#/definitions/timeformat",
+                                                        "description": "The interval (in time format)"
+                                                    }
+                                                ]
+                                            },
+                                            "notify": {
+                                                "type": "boolean",
+                                                "default": false,
+                                                "description": "If a delayed notification should be sent"
+                                            }
+                                        }
+                                    }
+                                },
+                                "count": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "description": "The retry count"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "description": "The retry settings",
+                            "required": [
+                                "intervals",
+                                "during"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "intervals": {
+                                    "type": "array",
+                                    "uniqueItems": false,
+                                    "minItems": 1,
+                                    "description": "The retry intervals",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "interval"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "interval": {
+                                                "oneof": [
+                                                    {
+                                                        "type": "integer",
+                                                        "minimum": 0,
+                                                        "description": "The interval (in seconds)"
+                                                    },
+                                                    {
+                                                        "$ref": "#/definitions/timeformat",
+                                                        "description": "The interval (in time format)"
+                                                    }
+                                                ]
+                                            },
+                                            "notify": {
+                                                "type": "boolean",
+                                                "default": false,
+                                                "description": "If a delayed notification should be sent"
+                                            }
+                                        }
+                                    }
+                                },
+                                "during": {
+                                    "$ref": "#/definitions/timeformat",
+                                    "description": "The retry duration"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "extensions": {
+                    "type": "object",
+                    "description": "SMTP extensions",
+                    "additionalProperties": false,
+                    "properties": {
+                        "chunking": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "Enable support for the CHUNKING extension"
+                        },
+                        "pipelining": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "Enable support for the PIPELINING extension"
+                        }
+                    }
+                }
+            }
+        },
+        "jobid": {
+            "type": "string",
+            "pattern": "^(?!(?:\/.*\/|#.*|.*[*].*)$).*$",
+            "minLength": 1
+        },
+        "grouping": {
+            "type": "string",
+            "pattern": "^(?!(?:\/.*\/|#.*|.*[*].*)$).*$",
+            "minLength": 1
+        },
+        "objectid": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_.]+$",
+            "minLength": 1,
+            "maxLength": 64
+        },
+        "domain": {
+            "type": "string",
+            "pattern": "^(?!(?:\/.*\/|#.*|.*[*].*)$)[a-zA-Z0-9_.-]+$",
+            "minLength": 1
+        },
+        "ipv4": {
+            "type": "string",
+            "pattern": "^(?!(?:\/.*\/|#.*|.*[*].*)$)(?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\\.(?!$)|$)){4}$",
+            "minLength": 7
+        },
+        "ipv4net": {
+            "type": "string",
+            "pattern": "^(?!(?:\/.*\/|#.*|.*[*].*)$)(?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\\.(?!$)|\/[0-9]+$)){4}$",
+            "minLength": 9
+        },
+        "ipv6": {
+            "type": "string",
+            "pattern": "^(?!(?:\/.*\/|#.*|.*[*].*)$)(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$",
+            "minLength": 3
+        },
+        "ipv6net": {
+            "type": "string",
+            "pattern": "^(?!(?:\/.*\/|#.*|.*[*].*)$)(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\/[0-9]+$",
+            "minLength": 3
+        },
+        "regex": {
+            "type": "string",
+            "pattern": "^/.*/$",
+            "minLength": 2
+        },
+        "wildcard": {
+            "type": "string",
+            "pattern": "^[*][.][a-zA-Z0-9_.-]+$",
+            "minLength": 3
+        },
+        "timeformat": {
+            "type": "string",
+            "pattern": "^([0-9]+d)?([0-9]+h)?([0-9]+m)?([0-9]+s)?$",
+            "minLength": 2
+        }
+    }
+}

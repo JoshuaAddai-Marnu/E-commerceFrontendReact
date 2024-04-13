@@ -1,0 +1,334 @@
+Now we will add JWT token and for that we need to install
+this dependency: 
+Microsoft.AspNetCore.Authentication.JwtBearer
+
+in program.cs, add this
+
+    builder.Services.AddScoped<RolesController>();
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    };
+                    });
+   
+in appsettings.json file, add this:
+
+"Jwt": { 
+
+    "Key": "your_secret_key_here",//could be any key e.g. j38jde9je9@#$%^&* 
+
+    "Issuer": "your_issuer_here",//e.g. ‘https://localhost:44300’ port could be different in your case 
+
+    "ExpireHours": 1 
+
+  }, 
+  
+updated AccountController.cs
+
+//code
+using IdentityPractice.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IdentityPractice.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AccountController : ControllerBase
+    {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly EmailService _emailService;
+        private readonly IConfiguration _configuration;
+
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, EmailService emailService, IConfiguration configuration)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailService = emailService;
+            _configuration = configuration;
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(AuthModel model)
+        {
+            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                // Generate an email verification token
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                // Create the verification link
+                var verificationLink = Url.Action("VerifyEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+
+                // Send the verification email
+                var emailSubject = "Email Verification";
+                var emailBody = $"Please verify your email by clicking the following link: {verificationLink}";
+                _emailService.SendEmail(user.Email, emailSubject, emailBody);
+               
+                return Ok("User registered successfully. An email verification link has been sent.");
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+
+        // Add an action to handle email verification
+        [HttpGet("verify-email")]
+        public async Task<IActionResult> VerifyEmail(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded)
+            {
+                return Ok("Email verification successful.");
+            }
+
+            return BadRequest("Email verification failed.");
+        }
+
+
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(AuthModel model)
+        {
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                var roles = await _userManager.GetRolesAsync(user);
+                var token = GenerateJwtToken(user,roles);
+                return Ok(new { Token = token });
+            }
+
+            return Unauthorized("Invalid login attempt.");
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok("Logged out");
+        }
+        private string GenerateJwtToken(IdentityUser user, IList<string> roles)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            // Add roles as claims
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddHours(Convert.ToDouble(_configuration["Jwt:ExpireHours"]));
+
+            var token = new JwtSecurityToken(
+                _configuration["Jwt:Issuer"],
+                _configuration["Jwt:Issuer"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+    }
+
+}
+
+Now we will add RolesController.cs
+//code
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using IdentityPractice.Models;
+using Microsoft.AspNetCore.Authorization;
+
+namespace IdentityPractice.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize(Roles = "Admin")]
+    public class RolesController : ControllerBase
+    {
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        {
+            _roleManager = roleManager;
+            _userManager = userManager;
+        }
+
+        [HttpGet]
+        public IActionResult GetRoles()
+        {
+            var roles = _roleManager.Roles.ToList();
+            return Ok(roles);
+        }
+
+        [HttpGet("{roleId}")]
+        public async Task<IActionResult> GetRole(string roleId)
+        {
+            var role = await _roleManager.FindByIdAsync(roleId);
+
+            if (role == null)
+            {
+                return NotFound("Role not found.");
+            }
+
+            return Ok(role);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole([FromBody] string roleName)
+        {
+            var role = new IdentityRole(roleName);
+            var result = await _roleManager.CreateAsync(role);
+
+            if (result.Succeeded)
+            {
+                return Ok("Role created successfully.");
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleModel model)
+        {
+            var role = await _roleManager.FindByIdAsync(model.RoleId);
+
+            if (role == null)
+            {
+                return NotFound("Role not found.");
+            }
+
+            role.Name = model.NewRoleName;
+            var result = await _roleManager.UpdateAsync(role);
+
+            if (result.Succeeded)
+            {
+                return Ok("Role updated successfully.");
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteRole(string roleId)
+        {
+            var role = await _roleManager.FindByIdAsync(roleId);
+
+            if (role == null)
+            {
+                return NotFound("Role not found.");
+            }
+
+            var result = await _roleManager.DeleteAsync(role);
+
+            if (result.Succeeded)
+            {
+                return Ok("Role deleted successfully.");
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+        [HttpPost("assign-role-to-user")]
+        public async Task<IActionResult> AssignRoleToUser([FromBody] AssignRoleModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var roleExists = await _roleManager.RoleExistsAsync(model.RoleName);
+
+            if (!roleExists)
+            {
+                return NotFound("Role not found.");
+            }
+
+            var result = await _userManager.AddToRoleAsync(user, model.RoleName);
+
+            if (result.Succeeded)
+            {
+                return Ok("Role assigned to user successfully.");
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+    }
+}
+
+
+
+
+then we will add these classes in the models:
+
+public class AssignRoleModel
+    {
+        public string UserId { get; set; }
+        public string RoleName { get; set; }
+    }
+
+ public class UpdateRoleModel
+    {
+        public string RoleId { get; set; }
+        public string NewRoleName { get; set; }
+    }
+	
+	
+Now our project has roles (create an Admin, using postman)
+
+Cloud deployment (Assessment)
+

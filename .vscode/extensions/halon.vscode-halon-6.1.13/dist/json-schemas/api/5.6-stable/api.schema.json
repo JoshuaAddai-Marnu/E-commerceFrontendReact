@@ -1,0 +1,235 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The settings for the HTTP/JSON API endpoint",
+    "markdownDescription": "The settings for the [HTTP/JSON API endpoint](https://docs.halon.io/manual/api_http_json.html)",
+    "additionalProperties": false,
+    "required": ["version", "listeners"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["5.6"],
+            "description": "The software version the configuration was created for"
+        },
+        "authentication": {
+            "type": "object",
+            "description": "The authentication settings",
+            "additionalProperties": false,
+            "properties": {
+                "secret": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The secret that needs to be sent in the request using the X-API-Key header"
+                }
+            }
+        },
+        "listeners": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "description": "The IP addresses and ports to listen on. If no IP addresses are specificed it will bind to any (both IPv4 and IPv6)",
+            "items": {
+                "type": "object",
+                "required": [
+                    "port"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "port": {
+                        "type": "integer",
+                        "maximum": 65535,
+                        "minimum": 1,
+                        "description": "Port number"
+                    },
+                    "address": {
+                        "description": "IP address",
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "ipv4",
+                                "description": "IPv4 address"
+                            },
+                            {
+                                "type": "string",
+                                "format": "ipv6",
+                                "description": "IPv6 address"
+                            }
+                        ]
+                    },
+                    "pki": {
+                        "type": "object",
+                        "description": "The X.509 certificate and private key",
+                        "additionalProperties": false,
+                        "required": [
+                            "certificate",
+                            "privatekey"
+                        ],
+                        "properties": {
+                            "certificate": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "data"
+                                        ],
+                                        "properties": {
+                                            "data": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The PKCS #8 PEM data"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "path"
+                                        ],
+                                        "properties": {
+                                            "path": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The PKCS #8 PEM path"
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "privatekey": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "data"
+                                        ],
+                                        "properties": {
+                                            "data": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The private key data"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "path"
+                                        ],
+                                        "properties": {
+                                            "path": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "description": "The private key path"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "environment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "privdrop": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "user": {
+                            "type": "string",
+                            "description": "Privdrop user"
+                        },
+                        "group": {
+                            "type": "string",
+                            "description": "Privdrop group"
+                        }
+                    }
+                },
+                "controlsockets": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "smtpd": {
+                            "oneOf": [
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "path": {
+                                            "type": "string",
+                                            "default": "/var/run/halon/smtpd.ctl",
+                                            "description": "Control socket path to smtpd process"
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                        "port"
+                                    ],
+                                    "properties": {
+                                        "port": {
+                                            "type": "integer",
+                                            "maximum": 65535,
+                                            "minimum": 1,
+                                            "description": "Port number"
+                                        },
+                                        "address": {
+                                            "description": "IP address or hostname",
+                                            "anyOf": [
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv4",
+                                                    "description": "IPv4 address"
+                                                },
+                                                {
+                                                    "type": "string",
+                                                    "format": "ipv6",
+                                                    "description": "IPv6 address"
+                                                },
+                                                {
+                                                    "type": "string",
+                                                    "description": "Hostname"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "rated": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/rated.ctl",
+                                    "description": "Control socket path to rate process"
+                                }
+                            }
+                        },
+                        "dlpd": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "default": "/var/run/halon/dlpd.ctl",
+                                    "description": "Control socket path to content inspection process"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

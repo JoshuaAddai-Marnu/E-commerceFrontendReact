@@ -1,0 +1,6 @@
+{
+    "extension.title": "IntelliCode for C# Dev Kit",
+    "extension.description": "AI-assisted development for C# Dev Kit",
+    "settings.logging": "Logging level for 'IntelliCode for C# Dev Kit' output pane",
+    "settings.runAlongsideCopilot": "Provide inline completions when GitHub Copilot is also enabled. This setting does not affect starred IntelliSense completion items. This is not recommended because the two extensions will often suggest different completions in the same location, but only one completion can be shown."
+}

@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{891D3510-03BE-4508-A40A-8ED8CD3110D9}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="westminsterRentalVehicle/Program.cs">
+    <Files>
+      <File FileName="westminsterRentalVehicle/ElectricCar.cs" Line="1" Column="1" />
+      <File FileName="westminsterRentalVehicle/IOverlappable.cs" Line="1" Column="1" />
+      <File FileName="westminsterRentalVehicle/IRentalCustomer.cs" Line="1" Column="1" />
+      <File FileName="westminsterRentalVehicle/IRentalManager.cs" Line="1" Column="1" />
+      <File FileName="westminsterRentalVehicle/westminsterRentalVehicles.cs" Line="1" Column="1" />
+      <File FileName="westminsterRentalVehicle/Program.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="westminsterRentalVehicle" expanded="True">
+            <Node name="westminsterRentalVehicle" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.westminsterRentalVehicle PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+</Properties>

@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$ref": "file:../tracking/1.0-stable/tracking.schema.json"
+    }
+  ]
+}

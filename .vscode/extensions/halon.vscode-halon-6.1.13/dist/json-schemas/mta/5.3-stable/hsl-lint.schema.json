@@ -1,0 +1,63 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "The hsl-lint configuration file",
+    "additionalProperties": false,
+    "required": [
+        "version",
+        "data"
+    ],
+    "properties": {
+        "version": {
+            "type": "string",
+            "enum": ["5.3"],
+            "description": "The software version the configuration was created for"
+        },
+        "phase": {
+            "type": "string",
+            "description": "The script phase",
+            "enum": [
+                "connect",
+                "proxy",
+                "helo",
+                "auth",
+                "mailfrom",
+                "rcptto",
+                "eod",
+                "eodrcpt",
+                "predelivery",
+                "postdelivery"
+            ]
+        },
+        "data": {
+            "type": "string",
+            "description": "The script data"
+        },
+        "files": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "The virtual files; script, text or CSV",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "data"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^(([0-9a-z]{1,32})([\\.][0-9a-z]{1,32})*)(\\/(([0-9a-z]{1,32})([\\.][0-9a-z]{1,32})*))*$",
+                        "minLength": 1,
+                        "maxLength": 36,
+                        "description": "The file ID"
+                    },
+                    "data": {
+                        "type": "string",
+                        "description": "The script"
+                    }
+                }
+            }
+        }
+    }
+}

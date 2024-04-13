@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "dependencies": {
+    "@vsintellicode/starred-suggestions-csharp.darwin-arm64": "1.0.23-beta.gfccb715684"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://devdiv.visualstudio.com/DefaultCollection/DevDiv/_git/Pythia",
+    "branch": "green"
+  }
+}
