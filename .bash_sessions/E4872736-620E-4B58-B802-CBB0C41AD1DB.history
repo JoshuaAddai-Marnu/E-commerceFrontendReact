@@ -1,0 +1,66 @@
+ls
+cd Documents
+ls
+./srr.bash srrData.txt 2 1
+./srr.bash srrData.txt 2 1
+./srr.bash srrData.txt 2 1 2
+clear
+./srr.bash srrData.txt 2 1 2
+clear
+./srr.bash srrData.txt 2
+./srr.bash srrData.txt 2 a
+./srr.bash srrData.txt 2 1 2 1
+./srr.bash srrData.txt 2 1 2
+clear
+./srr.bash srrData.txt 2 1 2
+clear
+./srr.bash srrData.txt 2 1 2
+./srr.bash srrData.txt 2 1
+clear
+./srr.bash srrData.txt 2 a
+clear
+./srr.bash srrData.txt 2
+clear
+./srr.bash srrData.txt 2 1 2
+clear
+./srr.bash srrData.txt 2 1 2
+both
+clear
+./srr.bash srrData.txt 2 1 2
+clear
+./srr.bash srrData.txt 2 1 2
+clear
+./srr.bash srrData.txt 2 1 2
+clear
+./srr.bash srrData.txt 2
+./srr.bash srrData.txt 2 a
+./srr.bash srrData.txt 2 1 2
+./srr.bash srrData.txt 2 1 2
+ls
+cd Documents
+ls
+srrgpt.bash srrData.txt 2 1 2
+./srrgpt.bash srrData.txt 2 1 2
+ls
+pwd
+whoami
+clear
+git
+sudo port install git
+sudo install git
+brew install git
+sedo brew install git
+brew install git-gui
+create .
+code .
+code .
+code
+code .
+code .
+git fecth
+git --help
+code .
+code .
+git clone <url>
+git clone <https://github.com/JoshuaAddai-Marnu/WebAppDev.CW.Final>
+code .

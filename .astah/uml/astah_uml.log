@@ -1,0 +1,305 @@
+===========================================================
+astah_uml.log
+date: 20 March 2024 23:01:12 GMT
+ver: UML 9.2.0 / 0248cd
+java ver: 1.8.0_402
+java vendor: Temurin
+os name: Mac OS X
+os ver: 14.4
+look and feel: FlatLaf Light
+system scale: 100.00% (retina)
+===========================================================
+----------------------------------------------------------
+                   System Properties                      
+----------------------------------------------------------
+
+java.vendor=Temurin
+sun.java.launcher=SUN_STANDARD
+sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+os.name=Mac OS X
+LaunchModifierFlagOption=false
+sun.boot.class.path=/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/resources.jar:/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/rt.jar:/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/sunrsasign.jar:/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/jsse.jar:/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/jce.jar:/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/charsets.jar:/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/jfr.jar:/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/classes
+LibraryDirectory=/Users/joshuaaddai-marnu/Library
+LaunchModifierFlagCommand=false
+MusicDirectory=/Users/joshuaaddai-marnu/Music
+java.vm.specification.vendor=Oracle Corporation
+java.runtime.version=1.8.0_402-b06
+SystemCachesDirectory=/Library/Caches
+SystemLibraryDirectory=/Library
+user.name=joshuaaddai-marnu
+user.language=en
+sun.boot.library.path=/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib
+astah.plugin.enabled=true
+java.version=1.8.0_402
+user.timezone=Europe/London
+sun.arch.data.model=64
+http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
+java.endorsed.dirs=/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/endorsed
+sun.cpu.isalist=
+sun.jnu.encoding=UTF-8
+file.encoding.pkg=sun.io
+MoviesDirectory=/Users/joshuaaddai-marnu/Movies
+file.separator=/
+java.specification.name=Java Platform API Specification
+LaunchModifierFlagControl=false
+LaunchModifierFlagFunction=false
+java.class.version=52.0
+user.country=GB
+java.home=/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre
+java.vm.info=mixed mode
+os.version=14.4
+AutosavedInformationDirectory=/Users/joshuaaddai-marnu/Library/Autosave Information
+sun.font.fontmanager=sun.font.CFontManager
+path.separator=:
+java.vm.version=25.402-b06
+sun.awt.enableExtraMouseButtons=true
+PicturesDirectory=/Users/joshuaaddai-marnu/Pictures
+java.awt.printerjob=sun.lwawt.macosx.CPrinterJob
+sun.io.unicode.encoding=UnicodeBig
+java.specification.maintenance.version=5
+awt.toolkit=sun.lwawt.macosx.LWCToolkit
+socksNonProxyHosts=local|*.local|169.254/16|*.169.254/16
+ftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
+user.home=/Users/joshuaaddai-marnu
+CachesDirectory=/Users/joshuaaddai-marnu/Library/Caches
+java.specification.vendor=Oracle Corporation
+apple.laf.useScreenMenuBar=true
+LaunchModifierFlagCapsLock=false
+java.library.path=/Applications/astah UML/astah UML.app/Contents/java/lib/rlm
+java.vendor.url=https://adoptium.net/
+java.vm.vendor=Temurin
+gopherProxySet=false
+UserHome=/Users/joshuaaddai-marnu
+java.runtime.name=OpenJDK Runtime Environment
+sun.java.command=JP.co.esm.caddies.jomt.Jude
+java.class.path=/Applications/astah UML/astah UML.app/Contents/Java/Classes:/Applications/astah UML/astah UML.app/Contents/Java/astah-api.jar:/Applications/astah UML/astah UML.app/Contents/Java/astah-uml.jar
+ApplicationSupportDirectory=/Users/joshuaaddai-marnu/Library/Application Support
+java.vm.specification.name=Java Virtual Machine Specification
+java.vm.specification.version=1.8
+sun.cpu.endian=little
+DocumentsDirectory=/Users/joshuaaddai-marnu/Documents
+sun.os.patch.level=unknown
+ApplicationDirectory=/Users/joshuaaddai-marnu/Applications
+java.io.tmpdir=/var/folders/ml/1bv665lj2qsczmdb9d4w7v340000gn/T/
+java.vendor.url.bug=https://github.com/adoptium/adoptium-support/issues
+LaunchModifierFlagNumericPad=false
+os.arch=x86_64
+java.awt.graphicsenv=sun.awt.CGraphicsEnvironment
+DownloadsDirectory=/Users/joshuaaddai-marnu/Downloads
+java.ext.dirs=/Users/joshuaaddai-marnu/Library/Java/Extensions:/Applications/astah UML/astah UML.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+user.dir=/Users/joshuaaddai-marnu
+SystemApplicationDirectory=/Applications
+LaunchModifierFlagShift=false
+line.separator=
+
+DarkMode=true
+SandboxEnabled=true
+java.vm.name=OpenJDK 64-Bit Server VM
+astah.edition=uml
+SystemUserDirectory=/Users
+file.encoding=UTF-8
+SharedPublicDirectory=/Users/joshuaaddai-marnu/Public
+LaunchModifierFlags=0
+java.specification.version=1.8
+SystemApplicationSupportDirectory=/Library/Application Support
+LaunchModifierFlagHelp=false
+DesktopDirectory=/Users/joshuaaddai-marnu/Desktop
+
+----------------------------------------------------------
+                   Plugin Infos                      
+----------------------------------------------------------
+
+org.apache.felix.framework (4.0.3) "System Bundle" [] [ACTIVE:Enable]
+com.change_vision.astah.extension.plugin.script (2.1.2) "Script Plugin" [7.2 - pro,uml,sys,safety] [INSTALLED:Enable]
+
+----------------------------------------------------------
+LN = null
+----------------------------------------------------------
+
+MaxMemory:  954728448 bytes.
+TotalMemory: 164626432 bytes.
+FreeMemory:  49279752 bytes.
+UsedMemory:   115346680 bytes.
+
+
+----------------------------------------------------------
+                      ModelVersion                        
+----------------------------------------------------------
+
+CurrentModelVersion:  41
+MaxModelVersion:  41
+
+----------------------------------------------------------
+                      VersionHistory                      
+----------------------------------------------------------
+
+UML 9.2.0(41)
+
+----------------------------------------------------------
+                      Stacktrace                          
+----------------------------------------------------------
+
+java.awt.print.PrinterException: No print service found.
+	at sun.lwawt.macosx.CPrinterJob.print(CPrinterJob.java:235)
+	at sun.print.RasterPrinterJob.print(RasterPrinterJob.java:1390)
+	at JP.co.esm.caddies.jomt.jview.hc.run(X:323)
+	at JP.co.esm.caddies.jomt.jutil.T.a(X:36)
+	at JP.co.esm.caddies.jomt.jview.ha.g(X:314)
+	at JP.co.esm.caddies.jomt.jview.ha.actionPerformed(X:259)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:262)
+	at java.awt.Component.processMouseEvent(Component.java:6539)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6304)
+	at java.awt.Container.processEvent(Container.java:2239)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2297)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4535)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4476)
+	at java.awt.Container.dispatchEventImpl(Container.java:2283)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:760)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:109)
+	at java.awt.WaitDispatchSupport$2.run(WaitDispatchSupport.java:190)
+	at java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:235)
+	at java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:233)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.awt.WaitDispatchSupport.enter(WaitDispatchSupport.java:233)
+	at java.awt.Dialog.show(Dialog.java:1084)
+	at java.awt.Component.show(Component.java:1671)
+	at java.awt.Component.setVisible(Component.java:1623)
+	at java.awt.Window.setVisible(Window.java:1014)
+	at java.awt.Dialog.setVisible(Dialog.java:1005)
+	at JP.co.esm.caddies.jomt.jcontrol.tools.D.a(X:39)
+	at JP.co.esm.caddies.jomt.jcontrol.PrintPreviewCommand.execute(X:34)
+	at g.start(X:59)
+	at m.run(X:88)
+	at m.b(X:103)
+	at l.a(X:107)
+	at q.a(X:116)
+	at q.actionPerformed(X:95)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.AbstractButton.doClick(AbstractButton.java:376)
+	at com.apple.laf.ScreenMenuItem.actionPerformed(ScreenMenuItem.java:125)
+	at java.awt.MenuItem.processActionEvent(MenuItem.java:669)
+	at java.awt.MenuItem.processEvent(MenuItem.java:628)
+	at java.awt.MenuComponent.dispatchEventImpl(MenuComponent.java:357)
+	at java.awt.MenuComponent.dispatchEvent(MenuComponent.java:345)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:763)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+----------------------------------------------------------
+                      Model Validation                    
+----------------------------------------------------------
+
+ModelValidationCommand: start checking
+ModelValidationCommand: end   num=1464
+
+MaxMemory:  954728448 bytes.
+TotalMemory: 223346688 bytes.
+FreeMemory:  170007920 bytes.
+UsedMemory:   53338768 bytes.
+
+
+----------------------------------------------------------
+                      ModelVersion                        
+----------------------------------------------------------
+
+CurrentModelVersion:  41
+MaxModelVersion:  41
+
+----------------------------------------------------------
+                      VersionHistory                      
+----------------------------------------------------------
+
+UML 9.2.0(41)
+
+----------------------------------------------------------
+                      Stacktrace                          
+----------------------------------------------------------
+
+java.awt.print.PrinterException: No print service found.
+	at sun.lwawt.macosx.CPrinterJob.print(CPrinterJob.java:235)
+	at sun.print.RasterPrinterJob.print(RasterPrinterJob.java:1390)
+	at JP.co.esm.caddies.jomt.jcontrol.tools.Q.a(X:54)
+	at JP.co.esm.caddies.jomt.jcontrol.PrintCommand.execute(X:29)
+	at g.start(X:59)
+	at m.run(X:88)
+	at m.b(X:103)
+	at l.a(X:107)
+	at q.a(X:116)
+	at q.actionPerformed(X:95)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.AbstractButton.doClick(AbstractButton.java:376)
+	at com.apple.laf.ScreenMenuItem.actionPerformed(ScreenMenuItem.java:125)
+	at java.awt.MenuItem.processActionEvent(MenuItem.java:669)
+	at java.awt.MenuItem.processEvent(MenuItem.java:628)
+	at java.awt.MenuComponent.dispatchEventImpl(MenuComponent.java:357)
+	at java.awt.MenuComponent.dispatchEvent(MenuComponent.java:345)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:763)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+----------------------------------------------------------
+                      Model Validation                    
+----------------------------------------------------------
+
+ModelValidationCommand: start checking
+ModelValidationCommand: end   num=1464
+

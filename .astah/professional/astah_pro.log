@@ -1,0 +1,113 @@
+===========================================================
+astah_pro.log
+date: 18 March 2024 12:52:43 GMT
+ver: Professional 9.1.0 / 448a59
+java ver: 1.8.0_372
+java vendor: Temurin
+os name: Mac OS X
+os ver: 14.4
+look and feel: FlatLaf Light
+system scale: 100.00% (retina)
+===========================================================
+----------------------------------------------------------
+                   System Properties                      
+----------------------------------------------------------
+
+java.vendor=Temurin
+sun.java.launcher=SUN_STANDARD
+sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+os.name=Mac OS X
+LaunchModifierFlagOption=false
+sun.boot.class.path=/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/resources.jar:/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/rt.jar:/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/sunrsasign.jar:/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/jsse.jar:/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/jce.jar:/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/charsets.jar:/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/jfr.jar:/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/classes
+LibraryDirectory=/Users/joshuaaddai-marnu/Library
+LaunchModifierFlagCommand=false
+MusicDirectory=/Users/joshuaaddai-marnu/Music
+java.vm.specification.vendor=Oracle Corporation
+java.runtime.version=1.8.0_372-b07
+SystemCachesDirectory=/Library/Caches
+SystemLibraryDirectory=/Library
+user.name=joshuaaddai-marnu
+user.language=en
+sun.boot.library.path=/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib
+astah.plugin.enabled=true
+java.version=1.8.0_372
+user.timezone=Europe/London
+sun.arch.data.model=64
+http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
+java.endorsed.dirs=/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/endorsed
+sun.cpu.isalist=
+sun.jnu.encoding=UTF-8
+file.encoding.pkg=sun.io
+MoviesDirectory=/Users/joshuaaddai-marnu/Movies
+file.separator=/
+java.specification.name=Java Platform API Specification
+LaunchModifierFlagControl=false
+LaunchModifierFlagFunction=false
+java.class.version=52.0
+user.country=GB
+java.home=/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre
+java.vm.info=mixed mode
+os.version=14.4
+AutosavedInformationDirectory=/Users/joshuaaddai-marnu/Library/Autosave Information
+sun.font.fontmanager=sun.font.CFontManager
+path.separator=:
+java.vm.version=25.372-b07
+sun.awt.enableExtraMouseButtons=true
+PicturesDirectory=/Users/joshuaaddai-marnu/Pictures
+java.awt.printerjob=sun.lwawt.macosx.CPrinterJob
+sun.io.unicode.encoding=UnicodeBig
+java.specification.maintenance.version=4
+awt.toolkit=sun.lwawt.macosx.LWCToolkit
+socksNonProxyHosts=local|*.local|169.254/16|*.169.254/16
+ftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
+user.home=/Users/joshuaaddai-marnu
+CachesDirectory=/Users/joshuaaddai-marnu/Library/Caches
+java.specification.vendor=Oracle Corporation
+apple.laf.useScreenMenuBar=true
+LaunchModifierFlagCapsLock=false
+java.library.path=/Applications/astah professional/astah professional.app/Contents/java/lib/rlm
+java.vendor.url=https://adoptium.net/
+java.vm.vendor=Temurin
+gopherProxySet=false
+UserHome=/Users/joshuaaddai-marnu
+java.runtime.name=OpenJDK Runtime Environment
+sun.java.command=JP.co.esm.caddies.jomt.Jude
+java.class.path=/Applications/astah professional/astah professional.app/Contents/Java/Classes:/Applications/astah professional/astah professional.app/Contents/Java/astah-pro.jar:/Applications/astah professional/astah professional.app/Contents/Java/astah-api.jar
+ApplicationSupportDirectory=/Users/joshuaaddai-marnu/Library/Application Support
+java.vm.specification.name=Java Virtual Machine Specification
+java.vm.specification.version=1.8
+sun.cpu.endian=little
+DocumentsDirectory=/Users/joshuaaddai-marnu/Documents
+sun.os.patch.level=unknown
+ApplicationDirectory=/Users/joshuaaddai-marnu/Applications
+java.io.tmpdir=/var/folders/ml/1bv665lj2qsczmdb9d4w7v340000gn/T/
+java.vendor.url.bug=https://github.com/adoptium/adoptium-support/issues
+LaunchModifierFlagNumericPad=false
+os.arch=x86_64
+java.awt.graphicsenv=sun.awt.CGraphicsEnvironment
+DownloadsDirectory=/Users/joshuaaddai-marnu/Downloads
+java.ext.dirs=/Users/joshuaaddai-marnu/Library/Java/Extensions:/Applications/astah professional/astah professional.app/Contents/PlugIns/Java.runtime/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+user.dir=/Users/joshuaaddai-marnu
+SystemApplicationDirectory=/Applications
+LaunchModifierFlagShift=false
+line.separator=
+
+DarkMode=true
+SandboxEnabled=true
+java.vm.name=OpenJDK 64-Bit Server VM
+astah.edition=professional
+SystemUserDirectory=/Users
+file.encoding=UTF-8
+SharedPublicDirectory=/Users/joshuaaddai-marnu/Public
+LaunchModifierFlags=0
+java.specification.version=1.8
+SystemApplicationSupportDirectory=/Library/Application Support
+LaunchModifierFlagHelp=false
+DesktopDirectory=/Users/joshuaaddai-marnu/Desktop
+
+----------------------------------------------------------
+                   Plugin Infos                      
+----------------------------------------------------------
+
+org.apache.felix.framework (4.0.3) "System Bundle" [] [ACTIVE:Enable]
+com.change_vision.astah.extension.plugin.script (2.1.0) "Script Plugin" [7.2 - pro,uml,safety] [INSTALLED:Enable]
